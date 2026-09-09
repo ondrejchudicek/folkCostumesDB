@@ -1,0 +1,27 @@
+:root {
+  --bg: rgba(0, 0, 0, 0.7);
+  --font-col: rgba(255, 255, 255, 1);
+  --title-font: "Josefin Sans", sans-serif;
+  --default-font: "DM Sans", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    
+  }
+}
+
+#root {
+  height: 100dvh;
+  width: 100wv;
+  display: flex;
+  align-items: center;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
