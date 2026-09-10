@@ -3,11 +3,13 @@
   --font-col: rgba(255, 255, 255, 1);
   --title-font: "Josefin Sans", sans-serif;
   --default-font: "DM Sans", sans-serif;
+  --corner-radius: 0.5rem;
+  --global-padding: 1rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    
+    --bg: rgba(0, 0, 0, 0.7);
   }
 }
 
