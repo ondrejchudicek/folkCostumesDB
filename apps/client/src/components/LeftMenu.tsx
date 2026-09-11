@@ -1,24 +1,6 @@
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { useActiveCostume } from "../CostumeContext.tsx";
-
-function MenuTrigger({
-  text,
-  tw,
-  handleClick,
-}: {
-  text: string;
-  tw: string;
-  handleClick?: () => void;
-}) {
-  return (
-    <div
-      className={`z-21 h-12 w-40 absolute bottom-0 left-0 flex justify-center items-center text-center bg-(--bg) rounded-(--corner-radius) transition-opacity duration-300 ${tw}`}
-      onClick={handleClick}
-    >
-      {text}
-    </div>
-  );
-}
+import MenuTrigger from "./MenuTrigger.tsx";
 
 function CloseButton({ handleClick }: { handleClick: () => void }) {
   return <div className={`h-10 w-10 bg-red-500`} onClick={handleClick}></div>;
@@ -26,31 +8,43 @@ function CloseButton({ handleClick }: { handleClick: () => void }) {
 
 function Title({
   text,
-  tw = "",
   isMobileLayout,
-  setIsMenuOpen,
+  manageMenuOpen,
 }: {
   text: string;
-  tw?: string;
   isMobileLayout: boolean;
-  setIsMenuOpen: (_: boolean) => void;
+  manageMenuOpen: (b: boolean) => void;
 }) {
   return (
     <div
-      className={`h-full w-full bg-(--bg) flex items-center justify-around text-(--font-col) text-3xl text-center font-(family-name:--title-font) rounded-(--corner-radius) p-(--global-padding) duration-300 ${tw}`}
+      className={`h-full w-full bg-(--bg) flex items-center justify-around text-(--font-col) text-3xl text-center font-(family-name:--title-font) rounded-(--corner-radius) p-(--global-padding)`}
     >
       {text}
       {isMobileLayout && (
-        <CloseButton handleClick={() => setIsMenuOpen(false)} />
+        <CloseButton
+          handleClick={() => {
+            manageMenuOpen(false);
+          }}
+        />
       )}
     </div>
   );
 }
 
-function Description({ text, tw }: { text: string; tw: string }) {
+function Description({
+  text,
+  isMenuOpen,
+  isMobileLayout,
+}: {
+  text: string;
+  isMenuOpen: boolean;
+  isMobileLayout: boolean;
+}) {
+  const visibility = isMenuOpen || isMobileLayout ? "opacity-100" : "opacity-0";
+
   return (
     <div
-      className={`z-22 h-full min-h-0 w-full bg-(--bg) rounded-(--corner-radius) p-(--global-padding) transition-opacity duration-300 ${tw}`}
+      className={`h-full min-h-0 w-full bg-(--bg) rounded-(--corner-radius) p-(--global-padding) transition-opacity duration-300 ${visibility}`}
     >
       <div className="h-full w-full overflow-y-auto scrollbar-none text-(--font-col) text-xl font-(family-name:--default-font)">
         {text}
@@ -61,75 +55,55 @@ function Description({ text, tw }: { text: string; tw: string }) {
 
 export default function LeftMenu({
   isMobileLayout,
+  isAnyMenuOpen,
+  setIsAnyMenuOpen,
 }: {
   isMobileLayout: boolean;
+  isAnyMenuOpen: boolean;
+  setIsAnyMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { activeCostume } = useActiveCostume();
+  const manageMenuOpen = (b: boolean) => {
+    setIsMenuOpen(b);
+    setIsAnyMenuOpen(b);
+  };
+  const layout = isMobileLayout
+    ? "col-start-1 row-start-1"
+    : "col-start-1 pointer-events-auto";
+  const visibility =
+    isMobileLayout && !isMenuOpen ? "opacity-0" : "opacity-100";
+  const pointer =
+    isMobileLayout && !isMenuOpen
+      ? "pointer-events-none"
+      : "pointer-events-auto";
 
-  if (isMobileLayout) {
-    return (
+  return (
+    <>
       <div
-        className={`h-full min-h-0 w-full relative grid grid-rows-[10rem_1fr] gap-y-(--global-padding) pointer-events-auto`}
+        className={`h-full min-h-0 w-full relative grid grid-rows-[10rem_1fr] gap-y-(--global-padding) transition-opacity duration-300 ${layout} ${visibility} ${pointer}`}
+        onMouseEnter={() => !isMobileLayout && manageMenuOpen(true)}
+        onMouseLeave={() => !isMobileLayout && manageMenuOpen(false)}
       >
-        <MenuTrigger
-          text="Left Menu"
-          tw={
-            isMenuOpen
-              ? "opacity-0 pointer-events-none"
-              : "opacity-100 pointer-events-auto"
-          }
-          handleClick={() => setIsMenuOpen(true)}
-        />
         <Title
           text={activeCostume.costume.name}
-          tw={
-            isMenuOpen
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }
           isMobileLayout={isMobileLayout}
-          setIsMenuOpen={setIsMenuOpen}
+          manageMenuOpen={manageMenuOpen}
         />
         <Description
           text={activeCostume.costume.description}
-          tw={
-            isMenuOpen
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }
+          isMenuOpen={isMenuOpen}
+          isMobileLayout={isMobileLayout}
         />
       </div>
-    );
-  }
-
-  return (
-    <div
-      className={`h-full min-h-0 w-full relative grid grid-rows-[10rem_1fr] gap-y-(--global-padding) pointer-events-auto`}
-      onMouseEnter={() => setIsMenuOpen(true)}
-      onMouseLeave={() => setIsMenuOpen(false)}
-    >
       <MenuTrigger
         text="Left Menu"
-        tw={
-          isMenuOpen
-            ? "opacity-0 pointer-events-none"
-            : "opacity-100 pointer-events-auto"
-        }
-      />
-      <Title
-        text={activeCostume.costume.name}
+        position="bottom-(--global-padding) left-(--global-padding)"
         isMobileLayout={isMobileLayout}
-        setIsMenuOpen={setIsMenuOpen}
+        isMenuOpen={isMenuOpen}
+        isAnyMenuOpen={isAnyMenuOpen}
+        handleClick={() => isMobileLayout && manageMenuOpen(true)}
       />
-      <Description
-        text={activeCostume.costume.description}
-        tw={
-          isMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }
-      />
-    </div>
+    </>
   );
 }

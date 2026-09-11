@@ -1,9 +1,15 @@
 import { useActiveCostume } from "../CostumeContext.tsx";
-import { type ReactNode } from "react";
+import {
+  useState,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
+import MenuTrigger from "./MenuTrigger.tsx";
 
 function RightMenuMain() {
   return (
-    <div className="h-full w-full bg-(--bg) rounded-(--corner-radius)"></div>
+    <div className={`h-full w-full bg-(--bg) rounded-(--corner-radius)`}></div>
   );
 }
 
@@ -17,7 +23,9 @@ function Button({ children }: { children: ReactNode }) {
 
 function RightMenuButtons() {
   return (
-    <div className="h-full w-full flex flex-row justify-between gap-x-(--global-padding)">
+    <div
+      className={`h-full w-full flex flex-row justify-between gap-x-(--global-padding)`}
+    >
       <Button>Reset Camera</Button>
       <Button>Upload Costume</Button>
       <Button>About</Button>
@@ -27,17 +35,40 @@ function RightMenuButtons() {
 
 export default function RightMenu({
   isMobileLayout,
+  isAnyMenuOpen,
+  setIsAnyMenuOpen,
 }: {
   isMobileLayout: boolean;
+  isAnyMenuOpen: boolean;
+  setIsAnyMenuOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { activeCostume } = useActiveCostume();
+  const manageMenuOpen = (b: boolean) => {
+    setIsMenuOpen(b);
+    setIsAnyMenuOpen(b);
+  };
+
+  const visibility = isMenuOpen ? "opacity-100" : "opacity-0";
 
   return (
-    <div
-      className={`h-full min-h-0 w-full grid grid-rows-[1fr_5rem] gap-y-(--global-padding) opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-auto ${isMobileLayout ? "col-start-1" : "col-start-3"}`}
-    >
-      <RightMenuMain />
-      <RightMenuButtons />
-    </div>
+    <>
+      <div
+        className={`h-full min-h-0 w-full relative grid grid-rows-[1fr_5rem] gap-y-(--global-padding) ${isMobileLayout ? "col-start-1 row-start-1 pointer-events-none" : "col-start-3 pointer-events-auto"} transition-opacity duration-300 ${visibility}`}
+        onMouseEnter={() => !isMobileLayout && manageMenuOpen(true)}
+        onMouseLeave={() => !isMobileLayout && manageMenuOpen(false)}
+      >
+        <RightMenuMain />
+        <RightMenuButtons />
+      </div>
+      <MenuTrigger
+        text="Left Menu"
+        position="bottom-(--global-padding) right-(--global-padding)"
+        isMobileLayout={isMobileLayout}
+        isMenuOpen={isMenuOpen}
+        isAnyMenuOpen={isAnyMenuOpen}
+        handleClick={() => isMobileLayout && manageMenuOpen(true)}
+      />
+    </>
   );
 }
