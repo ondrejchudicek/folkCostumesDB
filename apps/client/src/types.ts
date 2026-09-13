@@ -32,6 +32,8 @@ export type Model3D = Group<Object3DEventMap>;
 export interface OpenElements {
   leftMenuOpen: boolean;
   rightMenuOpen: boolean;
+  leftTriggerOpen: boolean;
+  rightTriggerOpen: boolean;
   aboutOpen: boolean;
   uploadFormOpen: boolean;
   fullScreenImageOpen: boolean;

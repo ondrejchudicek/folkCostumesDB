@@ -9,7 +9,7 @@ import type { ActiveCostume, Costume } from "../types.ts";
 import * as THREE from "three";
 import type { Model3D } from "../types.ts";
 
-const loadPartModel = (path: string): Model3D => {
+function loadPartModel(path: string): Model3D {
   const scene = useGLTF(path).scene;
 
   scene.position.y = -1;
@@ -21,24 +21,24 @@ const loadPartModel = (path: string): Model3D => {
   });
 
   return scene;
-};
+}
 
-const loadCostumePartsModels = (
+function loadCostumePartsModels(
   costume: Costume,
   setLastCostumePartsModels: Dispatch<SetStateAction<Model3D[]>>,
   setLastCostumeID: Dispatch<SetStateAction<string | null>>,
-) => {
+): void {
   const loadingParts: Model3D[] = [];
 
   costume.parts.map((part) => loadingParts.push(loadPartModel(part.path)));
   setLastCostumePartsModels(loadingParts);
   setLastCostumeID(costume.costumeID);
-};
+}
 
-const prepareRenderedParts = (
+function prepareRenderedParts(
   costume: Costume,
   costumePartsModels: Model3D[],
-): Model3D[] => {
+): Model3D[] {
   const toRender: Model3D[] = [];
 
   if (costume.parts.length !== costumePartsModels.length) return [];
@@ -50,7 +50,7 @@ const prepareRenderedParts = (
   }
 
   return toRender;
-};
+}
 
 interface CostumeProps {
   activeCostume: ActiveCostume;
@@ -61,6 +61,8 @@ interface CostumeProps {
 // activeParts have to be shared with UI, so prob in ActiveCostume, which will trigger reload if parts change
 // although this function always has to trigger to update the rendered items so I should instead try to avoid requesting loaded parts from DB and store them somewhere instead
 // something like remember last costume in state and check if available when reloading
+
+// prob have to load costume with GLTFLoader externally and change active costume when its ready
 export default function Costume({ activeCostume }: CostumeProps) {
   const [lastCostumePartsModels, setLastCostumePartsModels] = useState<
     Model3D[]

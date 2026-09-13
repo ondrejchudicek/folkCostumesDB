@@ -46,16 +46,18 @@ const initialActiveCostume: ActiveCostume = {
 function App() {
   const [activeCostume, setActiveCostume] =
     useState<ActiveCostume>(initialActiveCostume);
-  const availableCostumes: Costume[] = []; //wont change, will eventually load from server
+  const availableCostumes: Costume[] = [initialActiveCostume.costume]; //wont change, will eventually load from server
   const [isMobileLayout, setIsMobileLayout] = useState<boolean>(
     window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1080,
   );
 
-  window.onresize = () => {
-    (window.matchMedia("(pointer: coarse)").matches ||
-      window.innerWidth < 1080) !== isMobileLayout &&
+  window.addEventListener("resize", () => {
+    if (
+      (window.matchMedia("(pointer: coarse)").matches ||
+        window.innerWidth < 1080) !== isMobileLayout
+    )
       setIsMobileLayout(!isMobileLayout);
-  };
+  });
 
   return (
     <>
