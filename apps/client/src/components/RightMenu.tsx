@@ -1,7 +1,7 @@
 import { useActiveCostume, useAvailableCostumes } from "../CostumeContext.tsx";
 import { useState, type ReactNode } from "react";
 import MenuTrigger from "./MenuTrigger.tsx";
-import type { OpenElements } from "../types.ts";
+import type { OpenElements, rightMenuButtonsOnClicks } from "../types.ts";
 import CloseButton from "./CloseButton.tsx";
 
 const SelectedTab = {
@@ -82,22 +82,37 @@ function RightMenuMain({
   );
 }
 
-function Button({ children }: { children: ReactNode }) {
+function Button({
+  children,
+  onClick,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+}) {
   return (
-    <div className="h-full w-full flex justify-center items-center text-center p-(--global-padding) bg-(--bg) rounded-(--corner-radius) text-(--font-col) text-base font-(family-name:--default-font)">
+    <div
+      className="h-full w-full flex justify-center items-center text-center p-(--global-padding) bg-(--bg) rounded-(--corner-radius) text-(--font-col) text-base font-(family-name:--default-font)"
+      onClick={onClick}
+    >
       {children}
     </div>
   );
 }
 
-function RightMenuButtons() {
+function RightMenuButtons({
+  rightMenuButtonsOnClicks,
+}: {
+  rightMenuButtonsOnClicks: rightMenuButtonsOnClicks;
+}) {
   return (
     <div
       className={`h-full w-full flex flex-row justify-between gap-x-(--global-padding)`}
     >
-      <Button>Reset Camera</Button>
-      <Button>Upload Costume</Button>
-      <Button>About</Button>
+      <Button onClick={rightMenuButtonsOnClicks.resetCamera}>
+        Reset Camera
+      </Button>
+      <Button onClick={rightMenuButtonsOnClicks.upload}>Upload Costume</Button>
+      <Button onClick={rightMenuButtonsOnClicks.about}>About</Button>
     </div>
   );
 }
@@ -107,11 +122,13 @@ export default function RightMenu({
   areOpenElements,
   openRightMenu,
   closeRightMenu,
+  rightMenuButtonsOnClicks,
 }: {
   isMobileLayout: boolean;
   areOpenElements: OpenElements;
   openRightMenu: () => void;
   closeRightMenu: () => void;
+  rightMenuButtonsOnClicks: rightMenuButtonsOnClicks;
 }) {
   const layout = isMobileLayout ? "col-start-1 row-start-1" : "col-start-3";
   const visibility = areOpenElements.rightMenuOpen
@@ -133,10 +150,10 @@ export default function RightMenu({
           isMobileLayout={isMobileLayout}
           closeRightMenu={closeRightMenu}
         />
-        <RightMenuButtons />
+        <RightMenuButtons rightMenuButtonsOnClicks={rightMenuButtonsOnClicks} />
       </div>
       <MenuTrigger
-        text="Left Menu"
+        text="Right Menu"
         position="bottom-(--global-padding) right-(--global-padding)"
         isTriggerOpen={areOpenElements.rightTriggerOpen}
         handleClick={() => isMobileLayout && openRightMenu()}

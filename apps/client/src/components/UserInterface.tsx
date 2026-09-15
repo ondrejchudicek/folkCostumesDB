@@ -1,7 +1,8 @@
 import { useState, type Dispatch, type SetStateAction } from "react";
 import LeftMenu from "./LeftMenu";
 import RightMenu from "./RightMenu";
-import type { OpenElements } from "../types";
+import type { OpenElements, rightMenuButtonsOnClicks } from "../types";
+import About from "./About";
 
 function openLeftMenu(
   areOpenElements: OpenElements,
@@ -53,6 +54,45 @@ function closeRightMenu(
   setAreOpenElements(newAreOpenElements);
 }
 
+function openAbout(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+  isMobileLayout: boolean,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.aboutOpen = true;
+
+  setAreOpenElements(newAreOpenElements);
+
+  if (isMobileLayout) closeRightMenu(newAreOpenElements, setAreOpenElements);
+}
+
+function closeAbout(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.aboutOpen = false;
+
+  setAreOpenElements(newAreOpenElements);
+}
+
+function openUploadForm(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+  isMobileLayout: boolean,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.uploadFormOpen = true;
+  setAreOpenElements(newAreOpenElements);
+
+  if (isMobileLayout) closeRightMenu(newAreOpenElements, setAreOpenElements);
+}
+
+function resetCamera() {
+  return -1;
+}
+
 //reads currentCostume and updates itself accordingly, can setCostume
 
 export default function UserInterface({
@@ -71,9 +111,19 @@ export default function UserInterface({
     fullScreenImageOpen: false,
   });
 
+  const rightMenuButtonsOnClicks: rightMenuButtonsOnClicks = {
+    about: () => {
+      openAbout(areOpenElements, setAreOpenElements, isMobileLayout);
+      console.log("about");
+    },
+    upload: () =>
+      openUploadForm(areOpenElements, setAreOpenElements, isMobileLayout),
+    resetCamera: () => resetCamera(),
+  };
+
   return (
     <div
-      className={`z-20 p-(--global-padding) ${grid} h-full min-h-0 w-full pointer-events-none`}
+      className={`z-20 p-(--global-padding) ${grid} gap-x-(--global-padding) h-full min-h-0 w-full pointer-events-none`}
     >
       <LeftMenu
         isMobileLayout={isMobileLayout}
@@ -82,6 +132,11 @@ export default function UserInterface({
           openLeftMenu(areOpenElements, setAreOpenElements, isMobileLayout)
         }
         closeLeftMenu={() => closeLeftMenu(areOpenElements, setAreOpenElements)}
+      />
+      <About
+        areOpenElements={areOpenElements}
+        isMobileLayout={isMobileLayout}
+        closeAbout={() => closeAbout(areOpenElements, setAreOpenElements)}
       />
       <RightMenu
         isMobileLayout={isMobileLayout}
@@ -92,6 +147,7 @@ export default function UserInterface({
         closeRightMenu={() =>
           closeRightMenu(areOpenElements, setAreOpenElements)
         }
+        rightMenuButtonsOnClicks={rightMenuButtonsOnClicks}
       />
     </div>
   );

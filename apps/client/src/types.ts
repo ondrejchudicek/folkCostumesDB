@@ -1,4 +1,4 @@
-import {type Group, type Object3DEventMap} from "three";
+import { type Group, type Object3DEventMap } from "three";
 
 export interface Costume {
   costumeID: string;
@@ -20,7 +20,7 @@ export interface Image {
   path: string;
 }
 
-export interface ActiveCostume{
+export interface ActiveCostume {
   costume: Costume;
   parts: boolean[]; // will need key
 }
@@ -37,4 +37,10 @@ export interface OpenElements {
   aboutOpen: boolean;
   uploadFormOpen: boolean;
   fullScreenImageOpen: boolean;
+}
+
+export interface rightMenuButtonsOnClicks {
+  about: () => void;
+  upload: () => void;
+  resetCamera: () => void;
 }
