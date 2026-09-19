@@ -1,13 +1,9 @@
-import {
-  useState,
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-} from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { useGLTF } from "@react-three/drei";
-import type { ActiveCostume, Costume } from "../types.ts";
+import type { Costume, PartToggle, ToRender } from "../types.ts";
 import * as THREE from "three";
 import type { Model3D } from "../types.ts";
+import { useActiveCostume } from "../CostumeContext.tsx";
 
 function loadPartModel(path: string): Model3D {
   const scene = useGLTF(path).scene;
@@ -36,25 +32,23 @@ function loadCostumePartsModels(
 }
 
 function prepareRenderedParts(
-  costume: Costume,
+  partToggles: PartToggle[],
   costumePartsModels: Model3D[],
-): Model3D[] {
-  const toRender: Model3D[] = [];
+): ToRender[] {
+  const toRender: ToRender[] = [];
 
-  if (costume.parts.length !== costumePartsModels.length) return [];
+  if (partToggles.length !== costumePartsModels.length) return [];
 
-  for (let i = 0; i < costume.parts.length; i++) {
-    if (costume.parts[i]) {
-      toRender.push(costumePartsModels[i]);
+  for (let i = 0; i < partToggles.length; i++) {
+    if (partToggles[i].isActive) {
+      toRender.push({
+        model: costumePartsModels[i],
+        key: partToggles[i].partID,
+      });
     }
   }
 
   return toRender;
-}
-
-interface CostumeProps {
-  activeCostume: ActiveCostume;
-  children?: ReactNode;
 }
 
 // ideally this would remember list of GLBs + bools and only reload when activeCostume chages, update visibility when activeParts changes
@@ -63,7 +57,9 @@ interface CostumeProps {
 // something like remember last costume in state and check if available when reloading
 
 // prob have to load costume with GLTFLoader externally and change active costume when its ready
-export default function Costume({ activeCostume }: CostumeProps) {
+export default function Costume() {
+  const { activeCostume } = useActiveCostume();
+
   const [lastCostumePartsModels, setLastCostumePartsModels] = useState<
     Model3D[]
   >([]);
@@ -77,15 +73,17 @@ export default function Costume({ activeCostume }: CostumeProps) {
     );
   }
 
-  const toRender: Model3D[] = prepareRenderedParts(
-    activeCostume.costume,
+  const toRender: ToRender[] = prepareRenderedParts(
+    activeCostume.partToggles,
     lastCostumePartsModels,
   );
 
+  console.log("Costume render", toRender);
+
   return (
     <>
-      {toRender.map((part, index) => (
-        <primitive key={index} object={part} scale={1} />
+      {toRender.map((part) => (
+        <primitive key={part.key} object={part.model} scale={1} />
       ))}
     </>
   );

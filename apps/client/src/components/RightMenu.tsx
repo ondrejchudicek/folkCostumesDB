@@ -12,7 +12,7 @@ const SelectedTab = {
 
 function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
   let content: ReactNode;
-  const { activeCostume } = useActiveCostume();
+  const { activeCostume, setActiveCostume } = useActiveCostume();
   const { availableCostumes } = useAvailableCostumes();
 
   switch (selectedTab) {
@@ -26,11 +26,41 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
       break;
     }
     case SelectedTab.Parts: {
-      content = activeCostume.costume.parts.map((part) => (
-        <div className="h-10 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)">
-          {part.name}
-        </div>
-      ));
+      let partButtons: ReactNode[] = [];
+
+      for (let i = 0; i < activeCostume.costume.parts.length; i++) {
+        partButtons.push(
+          <div
+            className="h-10 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
+            /*onClick={() => {
+              console.log("clicked");
+              let newActiveCostume = { ...activeCostume };
+              newActiveCostume.partToggles[i].isActive =
+                !newActiveCostume.partToggles[i].isActive;
+
+              setActiveCostume(newActiveCostume);
+            }}*/
+
+            onClick={() => {
+              setActiveCostume((prev) => ({
+                ...prev,
+                partToggles: prev.partToggles.map((toggle, index) =>
+                  index === i
+                    ? {
+                        ...toggle,
+                        isActive: !toggle.isActive,
+                      }
+                    : toggle,
+                ),
+              }));
+            }}
+          >
+            {activeCostume.costume.parts[i].name}
+          </div>,
+        );
+      }
+
+      content = partButtons.map((button) => button);
 
       break;
     }
@@ -67,13 +97,24 @@ function RightMenuMain({
     <div
       className={`h-full min-h-0 w-full p-(--global-padding) bg-(--bg) rounded-(--corner-radius) grid grid-rows-[5rem_1fr] gap-y-(--global-padding)`}
     >
-      <div className="h-full w-full flex flex-row justify-between items-center bg-blue-600">
-        <button onClick={() => setSelectedTab(SelectedTab.Images)}>
-          Images
+      <div className="h-full w-full flex flex-row justify-between items-center">
+        <button
+          className="text-(--font-col) font-(family-name:--default-font) text-xl"
+          onClick={() => setSelectedTab(SelectedTab.Images)}
+        >
+          Fotky
         </button>
-        <button onClick={() => setSelectedTab(SelectedTab.Parts)}>Parts</button>
-        <button onClick={() => setSelectedTab(SelectedTab.Costumes)}>
-          Costumes
+        <button
+          className="text-(--font-col) font-(family-name:--default-font) text-xl"
+          onClick={() => setSelectedTab(SelectedTab.Parts)}
+        >
+          Casti
+        </button>
+        <button
+          className="text-(--font-col) font-(family-name:--default-font) text-xl"
+          onClick={() => setSelectedTab(SelectedTab.Costumes)}
+        >
+          Kroje
         </button>
         {isMobileLayout && <CloseButton handleClick={closeRightMenu} />}
       </div>

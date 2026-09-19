@@ -20,9 +20,14 @@ export interface Image {
   path: string;
 }
 
+export interface PartToggle{
+  isActive: boolean;
+  partID: string;
+}
+
 export interface ActiveCostume {
   costume: Costume;
-  parts: boolean[]; // will need key
+  partToggles: PartToggle[];
 }
 
 export type AvailableCostumes = Costume[];
@@ -43,4 +48,9 @@ export interface rightMenuButtonsOnClicks {
   about: () => void;
   upload: () => void;
   resetCamera: () => void;
+}
+
+export interface ToRender{
+  model: Model3D;
+  key: string;
 }
