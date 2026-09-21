@@ -1,6 +1,6 @@
 export default function CloseButton({
   handleClick,
-  tailwind = "",
+  tailwind = '',
 }: {
   handleClick: () => void;
   tailwind?: string | null;

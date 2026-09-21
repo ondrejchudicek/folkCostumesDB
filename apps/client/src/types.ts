@@ -1,4 +1,4 @@
-import { type Group, type Object3DEventMap } from "three";
+import { type Group, type Object3DEventMap } from 'three';
 
 export interface Costume {
   costumeID: string;
@@ -20,7 +20,7 @@ export interface Image {
   path: string;
 }
 
-export interface PartToggle{
+export interface PartToggle {
   isActive: boolean;
   partID: string;
 }
@@ -50,7 +50,7 @@ export interface rightMenuButtonsOnClicks {
   resetCamera: () => void;
 }
 
-export interface ToRender{
+export interface ToRender {
   model: Model3D;
   key: string;
 }

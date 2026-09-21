@@ -1,6 +1,6 @@
-import { createContext, useContext } from "react";
-import type { Dispatch, SetStateAction } from "react";
-import type { ActiveCostume, Costume } from "./types.ts";
+import { createContext, useContext } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import type { ActiveCostume, Costume } from './types.ts';
 
 interface ActiveCostumeContextType {
   activeCostume: ActiveCostume;
@@ -15,7 +15,7 @@ export function useActiveCostume() {
 
   if (context === null) {
     throw new Error(
-      "useActiveCostume must be used inside ActiveCostumeContext.Provider",
+      'useActiveCostume must be used inside ActiveCostumeContext.Provider',
     );
   }
 
@@ -34,7 +34,7 @@ export function useAvailableCostumes() {
 
   if (context === null) {
     throw new Error(
-      "useAvailableCostumes must be used inside AvailableCostumesContext.Provider",
+      'useAvailableCostumes must be used inside AvailableCostumesContext.Provider',
     );
   }
 

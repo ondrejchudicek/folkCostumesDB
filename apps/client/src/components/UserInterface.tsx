@@ -1,8 +1,8 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
-import LeftMenu from "./LeftMenu";
-import RightMenu from "./RightMenu";
-import type { OpenElements, rightMenuButtonsOnClicks } from "../types";
-import About from "./About";
+import { useState, type Dispatch, type SetStateAction } from 'react';
+import LeftMenu from './LeftMenu';
+import RightMenu from './RightMenu';
+import type { OpenElements, rightMenuButtonsOnClicks } from '../types';
+import About from './About';
 
 function openLeftMenu(
   areOpenElements: OpenElements,
@@ -100,7 +100,7 @@ export default function UserInterface({
 }: {
   isMobileLayout: boolean;
 }) {
-  const grid = isMobileLayout ? "grid" : "grid grid-cols-[20rem_1fr_20rem]";
+  const grid = isMobileLayout ? 'grid' : 'grid grid-cols-[20rem_1fr_20rem]';
   const [areOpenElements, setAreOpenElements] = useState<OpenElements>({
     leftMenuOpen: false,
     rightMenuOpen: false,
@@ -114,7 +114,7 @@ export default function UserInterface({
   const rightMenuButtonsOnClicks: rightMenuButtonsOnClicks = {
     about: () => {
       openAbout(areOpenElements, setAreOpenElements, isMobileLayout);
-      console.log("about");
+      console.log('about');
     },
     upload: () =>
       openUploadForm(areOpenElements, setAreOpenElements, isMobileLayout),

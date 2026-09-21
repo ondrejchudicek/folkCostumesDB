@@ -1,7 +1,7 @@
-import { useActiveCostume } from "../CostumeContext.tsx";
-import MenuTrigger from "./MenuTrigger.tsx";
-import type { OpenElements } from "../types.ts";
-import CloseButton from "./CloseButton.tsx";
+import { useActiveCostume } from '../CostumeContext.tsx';
+import MenuTrigger from './MenuTrigger.tsx';
+import type { OpenElements } from '../types.ts';
+import CloseButton from './CloseButton.tsx';
 
 function Title({
   text,
@@ -32,7 +32,7 @@ function Description({
   isMobileLayout: boolean;
 }) {
   const visibility =
-    isLeftMenuOpen || isMobileLayout ? "opacity-100" : "opacity-0";
+    isLeftMenuOpen || isMobileLayout ? 'opacity-100' : 'opacity-0';
 
   return (
     <div
@@ -58,16 +58,16 @@ export default function LeftMenu({
 }) {
   const { activeCostume } = useActiveCostume();
   const layout = isMobileLayout
-    ? "col-start-1 row-start-1"
-    : "col-start-1 pointer-events-auto";
+    ? 'col-start-1 row-start-1'
+    : 'col-start-1 pointer-events-auto';
   const visibility =
     isMobileLayout && !areOpenElements.leftMenuOpen
-      ? "opacity-0"
-      : "opacity-100";
+      ? 'opacity-0'
+      : 'opacity-100';
   const pointer =
     isMobileLayout && !areOpenElements.leftMenuOpen
-      ? "pointer-events-none"
-      : "pointer-events-auto";
+      ? 'pointer-events-none'
+      : 'pointer-events-auto';
 
   return (
     <>

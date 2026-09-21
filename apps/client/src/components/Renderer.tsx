@@ -1,6 +1,6 @@
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import Costume from "./Costume.tsx";
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import Costume from './Costume.tsx';
 
 export default function Renderer() {
   // hook to costume context and update parts when currentCostume changes

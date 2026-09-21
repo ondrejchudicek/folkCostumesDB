@@ -1,13 +1,13 @@
-import { useActiveCostume, useAvailableCostumes } from "../CostumeContext.tsx";
-import { useState, type ReactNode } from "react";
-import MenuTrigger from "./MenuTrigger.tsx";
-import type { OpenElements, rightMenuButtonsOnClicks } from "../types.ts";
-import CloseButton from "./CloseButton.tsx";
+import { useActiveCostume, useAvailableCostumes } from '../CostumeContext.tsx';
+import { useState, type ReactNode } from 'react';
+import MenuTrigger from './MenuTrigger.tsx';
+import type { OpenElements, rightMenuButtonsOnClicks } from '../types.ts';
+import CloseButton from './CloseButton.tsx';
 
 const SelectedTab = {
-  Images: "Images",
-  Parts: "Parts",
-  Costumes: "Costumes",
+  Images: 'Images',
+  Parts: 'Parts',
+  Costumes: 'Costumes',
 };
 
 function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
@@ -33,7 +33,6 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
           <div
             className="h-10 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
             /*onClick={() => {
-              console.log("clicked");
               let newActiveCostume = { ...activeCostume };
               newActiveCostume.partToggles[i].isActive =
                 !newActiveCostume.partToggles[i].isActive;
@@ -65,11 +64,29 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
       break;
     }
     case SelectedTab.Costumes: {
-      content = availableCostumes.map((costume) => (
-        <div className="h-20 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)">
-          {costume.name}
-        </div>
-      ));
+      let costumeButtons: ReactNode[] = [];
+
+      for (let i = 0; i < availableCostumes.length; i++) {
+        costumeButtons.push(
+          <div
+            className="h-20 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
+            onClick={() =>
+              setActiveCostume({
+                costume: availableCostumes[i],
+                partToggles: availableCostumes[i].parts.map((part) => ({
+                  isActive: true,
+                  partID: part.partID,
+                })),
+              })
+            }
+          >
+            {availableCostumes[i].name}
+          </div>,
+        );
+      }
+
+      content = costumeButtons.map((button) => button);
+
       break;
     }
     default: {
@@ -171,14 +188,14 @@ export default function RightMenu({
   closeRightMenu: () => void;
   rightMenuButtonsOnClicks: rightMenuButtonsOnClicks;
 }) {
-  const layout = isMobileLayout ? "col-start-1 row-start-1" : "col-start-3";
+  const layout = isMobileLayout ? 'col-start-1 row-start-1' : 'col-start-3';
   const visibility = areOpenElements.rightMenuOpen
-    ? "opacity-100"
-    : "opacity-0";
+    ? 'opacity-100'
+    : 'opacity-0';
   const pointer =
     isMobileLayout && !areOpenElements.rightMenuOpen
-      ? "pointer-events-none"
-      : "pointer-events-auto";
+      ? 'pointer-events-none'
+      : 'pointer-events-auto';
 
   return (
     <>

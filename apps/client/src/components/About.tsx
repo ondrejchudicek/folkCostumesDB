@@ -1,5 +1,5 @@
-import type { OpenElements } from "../types";
-import CloseButton from "./CloseButton";
+import type { OpenElements } from '../types';
+import CloseButton from './CloseButton';
 
 export default function About({
   areOpenElements,
@@ -11,9 +11,9 @@ export default function About({
   closeAbout: () => void;
 }) {
   const visibility = areOpenElements.aboutOpen
-    ? "opacity-100 pointer-events-auto"
-    : "opacity-0 pointer-events-none";
-  const layout = isMobileLayout ? "col-start-1 row-start-1" : "col-start-2";
+    ? 'opacity-100 pointer-events-auto'
+    : 'opacity-0 pointer-events-none';
+  const layout = isMobileLayout ? 'col-start-1 row-start-1' : 'col-start-2';
 
   return (
     <div
@@ -24,7 +24,7 @@ export default function About({
       </div>
       <CloseButton
         handleClick={closeAbout}
-        tailwind={"col-start-2 justify-self-end"}
+        tailwind={'col-start-2 justify-self-end'}
       />
       <div className="row-start-2 col-span-2 text-(--font-col) text-xl font-(family-name:--base-font)">
         Cílem aplikace bylo vytvořit veřejný prostor pro dokumentaci
