@@ -1,4 +1,4 @@
-import { useActiveCostume } from '../CostumeContext.tsx';
+import { useActiveCostume } from '../Contexts.ts';
 import MenuTrigger from './MenuTrigger.tsx';
 import type { OpenElements } from '../types.ts';
 import CloseButton from './CloseButton.tsx';

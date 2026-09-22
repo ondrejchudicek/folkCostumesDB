@@ -21,5 +21,8 @@ export default defineConfig(
     languageOptions: {
       globals: globals.browser,
     },
+    rules: {
+      'jsdoc/require-jsdoc': 'off',
+    },
   },
 );

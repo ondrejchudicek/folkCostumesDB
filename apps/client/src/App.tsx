@@ -6,7 +6,8 @@ import type { ActiveCostume, Costume } from './types.ts';
 import {
   ActiveCostumeContext,
   AvailableCostumesContext,
-} from './CostumeContext.tsx';
+  MobileLayoutContext,
+} from './Contexts.ts';
 
 // for testing ------------------------------
 const avC: Costume[] = [
@@ -169,9 +170,11 @@ export default function App() {
         value={{ activeCostume, setActiveCostume }}
       >
         <Renderer />
-        <AvailableCostumesContext.Provider value={{ availableCostumes }}>
-          <UserInterface isMobileLayout={isMobileLayout} />
-        </AvailableCostumesContext.Provider>
+        <MobileLayoutContext.Provider value={{ isMobileLayout }}>
+          <AvailableCostumesContext.Provider value={{ availableCostumes }}>
+            <UserInterface isMobileLayout={isMobileLayout} />
+          </AvailableCostumesContext.Provider>
+        </MobileLayoutContext.Provider>
       </ActiveCostumeContext.Provider>
     </>
   );

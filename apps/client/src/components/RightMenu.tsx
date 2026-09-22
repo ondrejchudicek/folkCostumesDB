@@ -1,4 +1,4 @@
-import { useActiveCostume, useAvailableCostumes } from '../CostumeContext.tsx';
+import { useActiveCostume, useAvailableCostumes } from '../Contexts.ts';
 import { useState, type ReactNode } from 'react';
 import MenuTrigger from './MenuTrigger.tsx';
 import type { OpenElements, rightMenuButtonsOnClicks } from '../types.ts';
@@ -26,7 +26,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
       break;
     }
     case SelectedTab.Parts: {
-      let partButtons: ReactNode[] = [];
+      const partButtons: ReactNode[] = [];
 
       for (let i = 0; i < activeCostume.costume.parts.length; i++) {
         partButtons.push(
@@ -64,7 +64,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
       break;
     }
     case SelectedTab.Costumes: {
-      let costumeButtons: ReactNode[] = [];
+      const costumeButtons: ReactNode[] = [];
 
       for (let i = 0; i < availableCostumes.length; i++) {
         costumeButtons.push(

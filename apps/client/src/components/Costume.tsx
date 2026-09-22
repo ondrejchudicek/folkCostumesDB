@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import type { Costume, ToRender } from '../types.ts';
 import type { Model3D } from '../types.ts';
-import { useActiveCostume } from '../CostumeContext.tsx';
+import { useActiveCostume } from '../Contexts.ts';
 import { prepareRenderedParts } from '../utils/prepareRenderedParts.ts';
-import { loadCostumePartsModels } from '../utils/loadCostume.ts';
+import { useCostumePartsModels } from '../utils/loadCostume.ts';
 
 // ideally this would remember list of GLBs + bools and only reload when activeCostume chages, update visibility when activeParts changes
 // activeParts have to be shared with UI, so prob in ActiveCostume, which will trigger reload if parts change
@@ -13,18 +13,17 @@ import { loadCostumePartsModels } from '../utils/loadCostume.ts';
 // prob have to load costume with GLTFLoader externally and change active costume when its ready
 export default function Costume() {
   const { activeCostume } = useActiveCostume();
-
   const [lastCostumePartsModels, setLastCostumePartsModels] = useState<
     Model3D[]
   >([]);
-  const [lastCostumeID, setLastCostumeID] = useState<string | null>(null);
+  const [lastCostumeID, setLastCostumeID] = useState<string>('-1');
 
-  if (!lastCostumeID || lastCostumeID !== activeCostume.costume.costumeID) {
-    loadCostumePartsModels(
-      activeCostume.costume,
-      setLastCostumePartsModels,
-      setLastCostumeID,
-    );
+  if (
+    lastCostumeID === '-1' ||
+    lastCostumeID !== activeCostume.costume.costumeID
+  ) {
+    setLastCostumePartsModels(useCostumePartsModels(activeCostume.costume));
+    setLastCostumeID(activeCostume.costume.costumeID);
   }
 
   const toRender: ToRender[] = prepareRenderedParts(

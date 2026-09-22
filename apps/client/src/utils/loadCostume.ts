@@ -1,30 +1,27 @@
+/**
+ * NOT A UTIL!! its a custom hook
+ * Loads all GLTF models of given Costume into lastCostumePartsModels context, regardless of them being active.
+ * Sets lastCostumeID context, which stores the ID of last loaded Costume.
+ * */ 
+
 import { useGLTF } from '@react-three/drei';
-import type { Dispatch, SetStateAction } from 'react';
-import type { Model3D, Costume } from '../types';
+import type { Costume, Model3D } from '../types';
 import * as THREE from 'three';
 
-function loadPartModel(path: string): Model3D {
-  const scene = useGLTF(path).scene;
+export function useCostumePartsModels(
+  costume: Costume
+): Model3D[] {
+  const paths = costume.parts.map(part => part.path);
 
-  scene.position.y = -1;
+  const models = useGLTF(paths);
 
-  scene.traverse((child) => {
-    if (child instanceof THREE.Mesh) {
-      child.material.side = THREE.DoubleSide;
-    }
+  return models.map(({ scene }) => {
+    scene.traverse(child => {
+      if (child instanceof THREE.Mesh) {
+        child.material.side = THREE.DoubleSide;
+      }
+    });
+
+    return scene;
   });
-
-  return scene;
-}
-
-export function loadCostumePartsModels(
-  costume: Costume,
-  setLastCostumePartsModels: Dispatch<SetStateAction<Model3D[]>>,
-  setLastCostumeID: Dispatch<SetStateAction<string | null>>,
-): void {
-  const loadingParts: Model3D[] = [];
-
-  costume.parts.map((part) => loadingParts.push(loadPartModel(part.path)));
-  setLastCostumePartsModels(loadingParts);
-  setLastCostumeID(costume.costumeID);
 }

@@ -15,7 +15,9 @@
 
 #root {
   height: 100dvh;
-  width: 100wv;
+  width: 100dvw;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   align-items: center;
 }

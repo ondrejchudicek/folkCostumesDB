@@ -112,10 +112,7 @@ export default function UserInterface({
   });
 
   const rightMenuButtonsOnClicks: rightMenuButtonsOnClicks = {
-    about: () => {
-      openAbout(areOpenElements, setAreOpenElements, isMobileLayout);
-      console.log('about');
-    },
+    about: () => openAbout(areOpenElements, setAreOpenElements, isMobileLayout),
     upload: () =>
       openUploadForm(areOpenElements, setAreOpenElements, isMobileLayout),
     resetCamera: () => resetCamera(),

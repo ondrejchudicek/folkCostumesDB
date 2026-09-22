@@ -40,3 +40,22 @@ export function useAvailableCostumes() {
 
   return context;
 }
+
+interface MobileLayoutContextType {
+  isMobileLayout: boolean;
+}
+
+export const MobileLayoutContext =
+  createContext<MobileLayoutContextType | null>(null);
+
+export function useMobileLayoutContext() {
+  const context = useContext(MobileLayoutContext);
+
+  if (context === null) {
+    throw new Error(
+      'useMobileLayoutContext must be used inside MobileLayoutContext.Provider',
+    );
+  }
+
+  return context;
+}
