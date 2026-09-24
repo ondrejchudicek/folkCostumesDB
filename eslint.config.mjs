@@ -25,4 +25,11 @@ export default defineConfig(
       'jsdoc/require-jsdoc': 'off',
     },
   },
+  {
+    files: ['apps/server/**/*.{ts,tsx}'],
+    rules: {
+      'new-cap': 'off',
+      'class-methods-use-this': 'off',
+    },
+  },
 );

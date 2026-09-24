@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { useCostumePartsModels } from './loadCostume';
-import type { Costume, Model3D } from '../types';
+import { useCostumePartsModels } from '../../utils/loadCostume';
+import type { Costume, Model3D } from '../../types';
 
 describe('loadCostume', () => {
   it("loads all costume's models", () => {
@@ -24,7 +24,7 @@ describe('loadCostume', () => {
             },
         ],
     }
-    let lastCostumePartsModels: Model3D[] = useCostumePartsModels(costume);
+    const lastCostumePartsModels: Model3D[] = useCostumePartsModels(costume);
     expect(lastCostumePartsModels.length).toEqual(1);
   });
 });

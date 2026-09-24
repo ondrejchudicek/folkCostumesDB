@@ -18,7 +18,10 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
   switch (selectedTab) {
     case SelectedTab.Images: {
       content = activeCostume.costume.images.map((image) => (
-        <div className="h-10 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)">
+        <div
+          className="h-10 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
+          key={image.imageID}
+        >
           {image.name}
         </div>
       ));
@@ -31,7 +34,8 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
       for (let i = 0; i < activeCostume.costume.parts.length; i++) {
         partButtons.push(
           <div
-            className="h-10 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
+            className={`h-10 w-full bg-(--bg) flex justify-center items-center text-center ${activeCostume.partToggles[i].isActive ? 'text-green-600' : 'text-(--font-col)'} text-xl font-(family-name:--default-font)`}
+            key={activeCostume.costume.parts[i].partID}
             /*onClick={() => {
               let newActiveCostume = { ...activeCostume };
               newActiveCostume.partToggles[i].isActive =
@@ -70,6 +74,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
         costumeButtons.push(
           <div
             className="h-20 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
+            key={availableCostumes[i].costumeID}
             onClick={() =>
               setActiveCostume({
                 costume: availableCostumes[i],
@@ -116,19 +121,19 @@ function RightMenuMain({
     >
       <div className="h-full w-full flex flex-row justify-between items-center">
         <button
-          className="text-(--font-col) font-(family-name:--default-font) text-xl"
+          className={`${selectedTab === SelectedTab.Images ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
           onClick={() => setSelectedTab(SelectedTab.Images)}
         >
           Fotky
         </button>
         <button
-          className="text-(--font-col) font-(family-name:--default-font) text-xl"
+          className={`${selectedTab === SelectedTab.Parts ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
           onClick={() => setSelectedTab(SelectedTab.Parts)}
         >
           Casti
         </button>
         <button
-          className="text-(--font-col) font-(family-name:--default-font) text-xl"
+          className={`${selectedTab === SelectedTab.Costumes ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
           onClick={() => setSelectedTab(SelectedTab.Costumes)}
         >
           Kroje

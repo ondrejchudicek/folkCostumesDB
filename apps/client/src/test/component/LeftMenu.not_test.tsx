@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import LeftMenu from '../../components/LeftMenu';
 import type { ActiveCostume, Costume, OpenElements } from '../../types';
 import { closeLeftMenu, openLeftMenu } from '../../utils/manageOpenComponents';

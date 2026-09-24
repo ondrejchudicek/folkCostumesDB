@@ -2,7 +2,7 @@
  * NOT A UTIL!! its a custom hook
  * Loads all GLTF models of given Costume into lastCostumePartsModels context, regardless of them being active.
  * Sets lastCostumeID context, which stores the ID of last loaded Costume.
- * */ 
+ */ 
 
 import { useGLTF } from '@react-three/drei';
 import type { Costume, Model3D } from '../types';

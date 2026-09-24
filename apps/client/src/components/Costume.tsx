@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import type { Costume, ToRender } from '../types.ts';
-import type { Model3D } from '../types.ts';
 import { useActiveCostume } from '../Contexts.ts';
 import { prepareRenderedParts } from '../utils/prepareRenderedParts.ts';
 import { useCostumePartsModels } from '../utils/loadCostume.ts';
@@ -13,29 +11,16 @@ import { useCostumePartsModels } from '../utils/loadCostume.ts';
 // prob have to load costume with GLTFLoader externally and change active costume when its ready
 export default function Costume() {
   const { activeCostume } = useActiveCostume();
-  const [lastCostumePartsModels, setLastCostumePartsModels] = useState<
-    Model3D[]
-  >([]);
-  const [lastCostumeID, setLastCostumeID] = useState<string>('-1');
-
-  if (
-    lastCostumeID === '-1' ||
-    lastCostumeID !== activeCostume.costume.costumeID
-  ) {
-    setLastCostumePartsModels(useCostumePartsModels(activeCostume.costume));
-    setLastCostumeID(activeCostume.costume.costumeID);
-  }
+  const costumePartsModels = useCostumePartsModels(activeCostume.costume);
 
   const toRender: ToRender[] = prepareRenderedParts(
     activeCostume.partToggles,
-    lastCostumePartsModels,
+    costumePartsModels,
   );
 
-  return (
-    <>
-      {toRender.map((part) => (
-        <primitive key={part.key} object={part.model} scale={1} />
-      ))}
-    </>
-  );
+  const primitives = toRender.map((part) => (
+    <primitive key={part.key} object={part.model} scale={1} visible />
+  ));
+
+  return <>{primitives}</>;
 }
