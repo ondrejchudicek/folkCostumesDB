@@ -135,15 +135,12 @@ const avC: Costume[] = [
 
 const initialActiveCostume: ActiveCostume = {
   costume: avC[0],
-  partToggles: [
-    { isActive: true, partID: avC[0].parts[0].partID },
-    { isActive: true, partID: avC[0].parts[1].partID },
-    { isActive: true, partID: avC[0].parts[2].partID },
-    { isActive: true, partID: avC[0].parts[3].partID },
-    { isActive: true, partID: avC[0].parts[4].partID },
-    { isActive: true, partID: avC[0].parts[5].partID },
-  ],
+  partToggles: avC[0].parts.map((part) => ({
+    isActive: true,
+    partID: part.partID,
+  })),
 };
+
 // for testing ------------------------------
 
 // stores activeCostume and availableCostumes

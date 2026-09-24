@@ -6,9 +6,9 @@ export default function CloseButton({
   tailwind?: string | null;
 }) {
   return (
-    <div
+    <button
       className={`h-10 w-10 bg-red-500 ${tailwind}`}
       onClick={handleClick}
-    ></div>
+    ></button>
   );
 }

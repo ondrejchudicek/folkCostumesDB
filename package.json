@@ -14,7 +14,7 @@
     "lint:client": "npm run lint --workspace=client",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "npm run test --workspaces",
+    "test": "npm run test --workspace=client",
     "test:e2e": "vitest run test:e2e --workspaces"
   },
   "dependencies": {

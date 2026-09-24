@@ -1,93 +1,17 @@
-import { useState, type Dispatch, type SetStateAction } from 'react';
+import { useState } from 'react';
 import LeftMenu from './LeftMenu';
 import RightMenu from './RightMenu';
 import type { OpenElements, rightMenuButtonsOnClicks } from '../types';
 import About from './About';
-
-function openLeftMenu(
-  areOpenElements: OpenElements,
-  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
-  isMobileLayout: boolean,
-) {
-  const newAreOpenElements = { ...areOpenElements };
-  newAreOpenElements.leftMenuOpen = true;
-  newAreOpenElements.leftTriggerOpen = false;
-  if (isMobileLayout) newAreOpenElements.rightTriggerOpen = false;
-
-  setAreOpenElements(newAreOpenElements);
-}
-
-function closeLeftMenu(
-  areOpenElements: OpenElements,
-  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
-) {
-  const newAreOpenElements = { ...areOpenElements };
-  newAreOpenElements.leftMenuOpen = false;
-  newAreOpenElements.leftTriggerOpen = true;
-  newAreOpenElements.rightTriggerOpen = true;
-
-  setAreOpenElements(newAreOpenElements);
-}
-
-function openRightMenu(
-  areOpenElements: OpenElements,
-  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
-  isMobileLayout: boolean,
-) {
-  const newAreOpenElements = { ...areOpenElements };
-  newAreOpenElements.rightMenuOpen = true;
-  newAreOpenElements.rightTriggerOpen = false;
-  if (isMobileLayout) newAreOpenElements.leftTriggerOpen = false;
-
-  setAreOpenElements(newAreOpenElements);
-}
-
-function closeRightMenu(
-  areOpenElements: OpenElements,
-  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
-) {
-  const newAreOpenElements = { ...areOpenElements };
-  newAreOpenElements.rightMenuOpen = false;
-  newAreOpenElements.rightTriggerOpen = true;
-  newAreOpenElements.leftTriggerOpen = true;
-
-  setAreOpenElements(newAreOpenElements);
-}
-
-function openAbout(
-  areOpenElements: OpenElements,
-  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
-  isMobileLayout: boolean,
-) {
-  const newAreOpenElements = { ...areOpenElements };
-  newAreOpenElements.aboutOpen = true;
-
-  setAreOpenElements(newAreOpenElements);
-
-  if (isMobileLayout) closeRightMenu(newAreOpenElements, setAreOpenElements);
-}
-
-function closeAbout(
-  areOpenElements: OpenElements,
-  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
-) {
-  const newAreOpenElements = { ...areOpenElements };
-  newAreOpenElements.aboutOpen = false;
-
-  setAreOpenElements(newAreOpenElements);
-}
-
-function openUploadForm(
-  areOpenElements: OpenElements,
-  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
-  isMobileLayout: boolean,
-) {
-  const newAreOpenElements = { ...areOpenElements };
-  newAreOpenElements.uploadFormOpen = true;
-  setAreOpenElements(newAreOpenElements);
-
-  if (isMobileLayout) closeRightMenu(newAreOpenElements, setAreOpenElements);
-}
+import {
+  openAbout,
+  openUploadForm,
+  openLeftMenu,
+  closeLeftMenu,
+  closeAbout,
+  openRightMenu,
+  closeRightMenu,
+} from '../utils/manageOpenComponents';
 
 function resetCamera() {
   return -1;
