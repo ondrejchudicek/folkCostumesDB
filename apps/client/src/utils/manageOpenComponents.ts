@@ -1,5 +1,5 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { OpenElements } from "../types";
+import type { Dispatch, SetStateAction } from 'react';
+import type { OpenElements } from '../types';
 
 export function openLeftMenu(
   areOpenElements: OpenElements,
