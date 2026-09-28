@@ -1,10 +1,19 @@
 import { render, screen } from '@testing-library/react';
-import LeftMenu from '../../components/LeftMenu';
+import RightMenu from '../../components/RightMenu';
 import userEvent from '@testing-library/user-event';
-import { ActiveCostumeContext } from '../../Contexts';
+import { ActiveCostumeContext, AvailableCostumesContext } from '../../Contexts';
 import { useState } from 'react';
-import type { ActiveCostume, Costume } from '../../types';
-import { closeLeftMenu, openLeftMenu } from '../../utils/manageOpenComponents';
+import type {
+  ActiveCostume,
+  Costume,
+  rightMenuButtonsOnClicks,
+} from '../../types';
+import {
+  closeRightMenu,
+  openAbout,
+  openRightMenu,
+  openUploadForm,
+} from '../../utils/manageOpenComponents';
 
 function ContextWrapper({
   isMobileLayout,
@@ -118,79 +127,63 @@ function ContextWrapper({
     fullScreenImageOpen: false,
   });
 
+  function resetCamera(): void {
+    throw new Error('Function not implemented.');
+  }
+
+  const rightMenuButtonsOnClicks: rightMenuButtonsOnClicks = {
+    about: () => openAbout(areOpenElements, setAreOpenElements, isMobileLayout),
+    upload: () =>
+      openUploadForm(areOpenElements, setAreOpenElements, isMobileLayout),
+    resetCamera: () => resetCamera(),
+  };
+
   return (
-    <ActiveCostumeContext.Provider value={{ activeCostume, setActiveCostume }}>
-      <LeftMenu
-        isMobileLayout={isMobileLayout}
-        areOpenElements={areOpenElements}
-        openLeftMenu={() =>
-          openLeftMenu(areOpenElements, setAreOpenElements, isMobileLayout)
-        }
-        closeLeftMenu={() => closeLeftMenu(areOpenElements, setAreOpenElements)}
-      />
-    </ActiveCostumeContext.Provider>
+    <AvailableCostumesContext.Provider value={{ availableCostumes: [costume] }}>
+      <ActiveCostumeContext.Provider
+        value={{ activeCostume, setActiveCostume }}
+      >
+        <RightMenu
+          isMobileLayout={isMobileLayout}
+          areOpenElements={areOpenElements}
+          openRightMenu={() =>
+            openRightMenu(areOpenElements, setAreOpenElements, isMobileLayout)
+          }
+          closeRightMenu={() =>
+            closeRightMenu(areOpenElements, setAreOpenElements)
+          }
+          rightMenuButtonsOnClicks={rightMenuButtonsOnClicks}
+        />
+      </ActiveCostumeContext.Provider>
+    </AvailableCostumesContext.Provider>
   );
 }
 
-it('renders LeftMenu', () => {
+it('renders RightMenu', () => {
   render(<ContextWrapper isMobileLayout={false} startOpen={true} />);
 
-  expect(screen.getByText('Kněždubský mužský nedělní kroj')).toBeVisible();
-  expect(
-    screen.getByText(/^I když dokumentovaná historie/u).parentElement,
-  ).toHaveClass('opacity-100');
+  expect(screen.getByText('Fotky')).toBeVisible();
+  expect(screen.getByText('Nedělní kroj')).toBeVisible();
+  expect(screen.getByText('Na lúkách')).toBeVisible();
+  expect(screen.getByText('Resetovat kameru')).toBeVisible();
+  expect(screen.getByText('Nahrát kroj')).toBeVisible();
+  expect(screen.getByText('O aplikaci')).toBeVisible();
 });
 
-it('LeftMenu interacts on hover', async () => {
+it('RightMenu interacts on hover', async () => {
   const user = userEvent.setup();
 
   render(<ContextWrapper isMobileLayout={false} />);
+  const rightMenu =
+    screen.getByText('Fotky').parentElement?.parentElement?.parentElement;
 
-  expect(screen.getByText('Kněždubský mužský nedělní kroj')).toBeVisible();
-  expect(
-    screen.getByText(/^I když dokumentovaná historie/u).parentElement,
-  ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
+  expect(rightMenu).toHaveClass('opacity-0');
 
-  await user.hover(screen.getByText(/^I když dokumentovaná historie/u));
+  await user.hover(screen.getByText('Fotky'));
 
-  expect(
-    screen.getByText(/^I když dokumentovaná historie/u).parentElement,
-  ).toHaveClass('opacity-100');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-0');
+  expect(rightMenu).toHaveClass('opacity-100');
 
-  await user.unhover(screen.getByText(/^I když dokumentovaná historie/u));
+  await user.unhover(screen.getByText('Fotky'));
 
-  expect(
-    screen.getByText(/^I když dokumentovaná historie/u).parentElement,
-  ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
-});
-
-it('LeftMenu interacts on mobile', async () => {
-  const user = userEvent.setup();
-
-  render(<ContextWrapper isMobileLayout={true} />);
-
-  expect(
-    screen.getByText('Kněždubský mužský nedělní kroj').parentElement,
-  ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
-
-  await user.click(screen.getByText('Left Menu'));
-
-  expect(
-    screen.getByText('Kněždubský mužský nedělní kroj').parentElement,
-  ).toHaveClass('opacity-100');
-  expect(
-    screen.getByText(/^I když dokumentovaná historie/u).parentElement,
-  ).toHaveClass('opacity-100');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-0');
-
-  await user.click(screen.getByRole('button'));
-
-  expect(
-    screen.getByText('Kněždubský mužský nedělní kroj').parentElement,
-  ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
+  expect(rightMenu).toHaveClass('opacity-0');
 });

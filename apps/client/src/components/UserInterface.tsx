@@ -14,7 +14,7 @@ import {
 } from '../utils/manageOpenComponents';
 
 function resetCamera() {
-  return -1;
+  throw new Error('Function not implemented.');
 }
 
 //reads currentCostume and updates itself accordingly, can setCostume

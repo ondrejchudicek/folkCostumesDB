@@ -172,10 +172,10 @@ function RightMenuButtons({
       className={`h-full w-full flex flex-row justify-between gap-x-(--global-padding)`}
     >
       <Button onClick={rightMenuButtonsOnClicks.resetCamera}>
-        Reset Camera
+        Resetovat kameru
       </Button>
-      <Button onClick={rightMenuButtonsOnClicks.upload}>Upload Costume</Button>
-      <Button onClick={rightMenuButtonsOnClicks.about}>About</Button>
+      <Button onClick={rightMenuButtonsOnClicks.upload}>Nahrát kroj</Button>
+      <Button onClick={rightMenuButtonsOnClicks.about}>O aplikaci</Button>
     </div>
   );
 }
