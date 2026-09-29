@@ -5,14 +5,14 @@ import userEvent from '@testing-library/user-event';
 it('renders MenuTrigger', () => {
   render(
     <MenuTrigger
-      text="Left Menu"
+      text="Popis"
       position="bottom-(--global-padding) left-(--global-padding)"
       isTriggerOpen={true}
       handleClick={vi.fn()}
     />,
   );
 
-  expect(screen.getByText('Left Menu')).toBeVisible();
+  expect(screen.getByText('Popis')).toBeVisible();
 });
 
 it('calls handleClick when clicked', async () => {
@@ -21,14 +21,14 @@ it('calls handleClick when clicked', async () => {
 
   render(
     <MenuTrigger
-      text="Left Menu"
+      text="Popis"
       position="bottom-(--global-padding) left-(--global-padding)"
       isTriggerOpen={true}
       handleClick={handleClick}
     />,
   );
 
-  await user.click(screen.getByText('Left Menu'));
+  await user.click(screen.getByText('Popis'));
 
   expect(handleClick).toHaveBeenCalledTimes(1);
 });

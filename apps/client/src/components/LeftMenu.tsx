@@ -88,7 +88,7 @@ export default function LeftMenu({
         />
       </div>
       <MenuTrigger
-        text="Left Menu"
+        text="Popis"
         position="bottom-(--global-padding) left-(--global-padding)"
         isTriggerOpen={areOpenElements.leftTriggerOpen}
         handleClick={() => isMobileLayout && openLeftMenu()}

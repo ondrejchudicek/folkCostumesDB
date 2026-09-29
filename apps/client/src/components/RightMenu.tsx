@@ -130,7 +130,7 @@ function RightMenuMain({
           className={`${selectedTab === SelectedTab.Parts ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
           onClick={() => setSelectedTab(SelectedTab.Parts)}
         >
-          Casti
+          Části
         </button>
         <button
           className={`${selectedTab === SelectedTab.Costumes ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
@@ -216,7 +216,7 @@ export default function RightMenu({
         <RightMenuButtons rightMenuButtonsOnClicks={rightMenuButtonsOnClicks} />
       </div>
       <MenuTrigger
-        text="Right Menu"
+        text="Menu"
         position="bottom-(--global-padding) right-(--global-padding)"
         isTriggerOpen={areOpenElements.rightTriggerOpen}
         handleClick={() => isMobileLayout && openRightMenu()}

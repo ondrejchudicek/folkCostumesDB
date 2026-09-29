@@ -150,21 +150,21 @@ it('LeftMenu interacts on hover', async () => {
   expect(
     screen.getByText(/^I když dokumentovaná historie/u).parentElement,
   ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
+  expect(screen.getByText('Popis')).toHaveClass('opacity-100');
 
   await user.hover(screen.getByText(/^I když dokumentovaná historie/u));
 
   expect(
     screen.getByText(/^I když dokumentovaná historie/u).parentElement,
   ).toHaveClass('opacity-100');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-0');
+  expect(screen.getByText('Popis')).toHaveClass('opacity-0');
 
   await user.unhover(screen.getByText(/^I když dokumentovaná historie/u));
 
   expect(
     screen.getByText(/^I když dokumentovaná historie/u).parentElement,
   ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
+  expect(screen.getByText('Popis')).toHaveClass('opacity-100');
 });
 
 it('LeftMenu interacts on mobile', async () => {
@@ -175,9 +175,9 @@ it('LeftMenu interacts on mobile', async () => {
   expect(
     screen.getByText('Kněždubský mužský nedělní kroj').parentElement,
   ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
+  expect(screen.getByText('Popis')).toHaveClass('opacity-100');
 
-  await user.click(screen.getByText('Left Menu'));
+  await user.click(screen.getByText('Popis'));
 
   expect(
     screen.getByText('Kněždubský mužský nedělní kroj').parentElement,
@@ -185,12 +185,12 @@ it('LeftMenu interacts on mobile', async () => {
   expect(
     screen.getByText(/^I když dokumentovaná historie/u).parentElement,
   ).toHaveClass('opacity-100');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-0');
+  expect(screen.getByText('Popis')).toHaveClass('opacity-0');
 
   await user.click(screen.getByRole('button'));
 
   expect(
     screen.getByText('Kněždubský mužský nedělní kroj').parentElement,
   ).toHaveClass('opacity-0');
-  expect(screen.getByText('Left Menu')).toHaveClass('opacity-100');
+  expect(screen.getByText('Popis')).toHaveClass('opacity-100');
 });
