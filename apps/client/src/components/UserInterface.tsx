@@ -13,16 +13,14 @@ import {
   closeRightMenu,
 } from '../utils/manageOpenComponents';
 
-function resetCamera() {
-  throw new Error('Function not implemented.');
-}
-
 //reads currentCostume and updates itself accordingly, can setCostume
 
 export default function UserInterface({
   isMobileLayout,
+  controlsReset,
 }: {
   isMobileLayout: boolean;
+  controlsReset: () => void;
 }) {
   const grid = isMobileLayout ? 'grid' : 'grid grid-cols-[20rem_1fr_20rem]';
   const [areOpenElements, setAreOpenElements] = useState<OpenElements>({
@@ -39,7 +37,7 @@ export default function UserInterface({
     about: () => openAbout(areOpenElements, setAreOpenElements, isMobileLayout),
     upload: () =>
       openUploadForm(areOpenElements, setAreOpenElements, isMobileLayout),
-    resetCamera: () => resetCamera(),
+    resetCamera: () => controlsReset(),
   };
 
   return (

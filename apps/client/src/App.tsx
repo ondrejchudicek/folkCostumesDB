@@ -146,6 +146,9 @@ const initialActiveCostume: ActiveCostume = {
 // stores activeCostume and availableCostumes
 // shares activeCostume with rendrer and UI, shares availableCostumes with UI.
 export default function App() {
+  const [controlsReset, setControlsReset] = useState<() => void>(
+    () => () => {},
+  );
   const [activeCostume, setActiveCostume] =
     useState<ActiveCostume>(initialActiveCostume);
   const availableCostumes: Costume[] = avC; //wont change, will eventually load from server
@@ -166,10 +169,13 @@ export default function App() {
       <ActiveCostumeContext.Provider
         value={{ activeCostume, setActiveCostume }}
       >
-        <Renderer />
+        <Renderer setControlsReset={setControlsReset} />
         <MobileLayoutContext.Provider value={{ isMobileLayout }}>
           <AvailableCostumesContext.Provider value={{ availableCostumes }}>
-            <UserInterface isMobileLayout={isMobileLayout} />
+            <UserInterface
+              isMobileLayout={isMobileLayout}
+              controlsReset={controlsReset}
+            />
           </AvailableCostumesContext.Provider>
         </MobileLayoutContext.Provider>
       </ActiveCostumeContext.Provider>
