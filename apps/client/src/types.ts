@@ -54,3 +54,10 @@ export interface ToRender {
   model: Model3D;
   key: string;
 }
+
+export interface FullScreenImageInfo {
+  src: string;
+  title: string;
+  prev: FullScreenImageInfo | null;
+  next: FullScreenImageInfo | null;
+}

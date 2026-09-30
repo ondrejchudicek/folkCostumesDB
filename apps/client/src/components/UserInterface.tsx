@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import LeftMenu from './LeftMenu';
 import RightMenu from './RightMenu';
-import type { OpenElements, rightMenuButtonsOnClicks } from '../types';
+import type {
+  FullScreenImageInfo,
+  OpenElements,
+  rightMenuButtonsOnClicks,
+} from '../types';
 import About from './About';
 import {
   openAbout,
@@ -11,7 +15,11 @@ import {
   closeAbout,
   openRightMenu,
   closeRightMenu,
+  openFullScreenImage,
+  closeFullScreenImage,
 } from '../utils/manageOpenComponents';
+import FullScreenImage from './FullScreenImage';
+import { OpenFullScreenImageContext } from '../Contexts';
 
 //reads currentCostume and updates itself accordingly, can setCostume
 
@@ -32,6 +40,13 @@ export default function UserInterface({
     uploadFormOpen: false,
     fullScreenImageOpen: false,
   });
+  const [fullScreenImageInfo, setFullScreenImageInfo] =
+    useState<FullScreenImageInfo>({
+      src: '',
+      title: '',
+      next: null,
+      prev: null,
+    });
 
   const rightMenuButtonsOnClicks: rightMenuButtonsOnClicks = {
     about: () => openAbout(areOpenElements, setAreOpenElements, isMobileLayout),
@@ -57,16 +72,42 @@ export default function UserInterface({
         isMobileLayout={isMobileLayout}
         closeAbout={() => closeAbout(areOpenElements, setAreOpenElements)}
       />
-      <RightMenu
-        isMobileLayout={isMobileLayout}
-        areOpenElements={areOpenElements}
-        openRightMenu={() =>
-          openRightMenu(areOpenElements, setAreOpenElements, isMobileLayout)
+      <OpenFullScreenImageContext.Provider
+        value={{
+          openFullScreenImage(info) {
+            openFullScreenImage(areOpenElements, setAreOpenElements);
+            setFullScreenImageInfo(info);
+          },
+        }}
+      >
+        <RightMenu
+          isMobileLayout={isMobileLayout}
+          areOpenElements={areOpenElements}
+          openRightMenu={() =>
+            openRightMenu(areOpenElements, setAreOpenElements, isMobileLayout)
+          }
+          closeRightMenu={() =>
+            closeRightMenu(areOpenElements, setAreOpenElements)
+          }
+
+          rightMenuButtonsOnClicks={rightMenuButtonsOnClicks}
+        />
+      </OpenFullScreenImageContext.Provider>
+
+      <FullScreenImage
+        isOpen={areOpenElements.fullScreenImageOpen}
+        fullScreenImageInfo={fullScreenImageInfo}
+        closeFullScreenImage={() =>
+          closeFullScreenImage(areOpenElements, setAreOpenElements)
         }
-        closeRightMenu={() =>
-          closeRightMenu(areOpenElements, setAreOpenElements)
+        next={() =>
+          fullScreenImageInfo.next &&
+          setFullScreenImageInfo(fullScreenImageInfo.next)
         }
-        rightMenuButtonsOnClicks={rightMenuButtonsOnClicks}
+        prev={() =>
+          fullScreenImageInfo.prev &&
+          setFullScreenImageInfo(fullScreenImageInfo.prev)
+        }
       />
     </div>
   );

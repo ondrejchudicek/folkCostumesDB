@@ -85,3 +85,31 @@ export function openUploadForm(
 
   if (isMobileLayout) closeRightMenu(newAreOpenElements, setAreOpenElements);
 }
+
+export function closeUploadForm(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.uploadFormOpen = false;
+
+  setAreOpenElements(newAreOpenElements);
+}
+
+export function openFullScreenImage(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.fullScreenImageOpen = true;
+  setAreOpenElements(newAreOpenElements);
+}
+
+export function closeFullScreenImage(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.fullScreenImageOpen = false;
+  setAreOpenElements(newAreOpenElements);
+}

@@ -1,15 +1,21 @@
 import { render, screen } from '@testing-library/react';
 import RightMenu from '../../components/RightMenu';
 import userEvent from '@testing-library/user-event';
-import { ActiveCostumeContext, AvailableCostumesContext } from '../../Contexts';
+import {
+  ActiveCostumeContext,
+  AvailableCostumesContext,
+  OpenFullScreenImageContext,
+} from '../../Contexts';
 import { useState } from 'react';
 import type {
   ActiveCostume,
   AvailableCostumes,
+  FullScreenImageInfo,
   rightMenuButtonsOnClicks,
 } from '../../types';
 import {
   closeRightMenu,
+  openFullScreenImage,
   openRightMenu,
 } from '../../utils/manageOpenComponents';
 
@@ -167,23 +173,33 @@ function ContextWrapper({
     uploadFormOpen: false,
     fullScreenImageOpen: false,
   });
+  const setFullScreenImageInfo = vi.fn();
 
   return (
     <AvailableCostumesContext.Provider value={{ availableCostumes: avC }}>
       <ActiveCostumeContext.Provider
         value={{ activeCostume, setActiveCostume }}
       >
-        <RightMenu
-          isMobileLayout={isMobileLayout}
-          areOpenElements={areOpenElements}
-          openRightMenu={() =>
-            openRightMenu(areOpenElements, setAreOpenElements, isMobileLayout)
-          }
-          closeRightMenu={() =>
-            closeRightMenu(areOpenElements, setAreOpenElements)
-          }
-          rightMenuButtonsOnClicks={rightMenuButtonsOnClicks}
-        />
+        <OpenFullScreenImageContext.Provider
+          value={{
+            openFullScreenImage(fullScreenImageInfo: FullScreenImageInfo) {
+              openFullScreenImage(areOpenElements, setAreOpenElements);
+              setFullScreenImageInfo(fullScreenImageInfo);
+            },
+          }}
+        >
+          <RightMenu
+            isMobileLayout={isMobileLayout}
+            areOpenElements={areOpenElements}
+            openRightMenu={() =>
+              openRightMenu(areOpenElements, setAreOpenElements, isMobileLayout)
+            }
+            closeRightMenu={() =>
+              closeRightMenu(areOpenElements, setAreOpenElements)
+            }
+            rightMenuButtonsOnClicks={rightMenuButtonsOnClicks}
+          />
+        </OpenFullScreenImageContext.Provider>
       </ActiveCostumeContext.Provider>
     </AvailableCostumesContext.Provider>
   );
@@ -193,8 +209,8 @@ it('renders RightMenu', () => {
   render(<ContextWrapper isMobileLayout={false} startOpen={true} />);
 
   expect(screen.getByText('Fotky')).toBeVisible();
-  expect(screen.getByText('Nedělní kroj')).toBeVisible();
-  expect(screen.getByText('Na lúkách')).toBeVisible();
+  expect(screen.getByAltText('Nedělní kroj')).toBeVisible();
+  expect(screen.getByAltText('Na lúkách')).toBeVisible();
   expect(screen.getByText('Resetovat kameru')).toBeVisible();
   expect(screen.getByText('Nahrát kroj')).toBeVisible();
   expect(screen.getByText('O aplikaci')).toBeVisible();
@@ -247,8 +263,8 @@ it('RightMenu section interactions', async () => {
 
   render(<ContextWrapper isMobileLayout={true} startOpen={true} />);
 
-  expect(screen.getByText('Nedělní kroj')).toBeVisible();
-  expect(screen.getByText('Na lúkách')).toBeVisible();
+  expect(screen.getByAltText('Nedělní kroj')).toBeVisible();
+  expect(screen.getByAltText('Na lúkách')).toBeVisible();
 
   await user.click(screen.getByText('Části'));
 
@@ -267,8 +283,8 @@ it('RightMenu section interactions', async () => {
 
   await user.click(screen.getByText('Fotky'));
 
-  expect(screen.getByText('Nedělní kroj')).toBeVisible();
-  expect(screen.getByText('Šátek')).toBeVisible();
+  expect(screen.getByAltText('Nedělní kroj')).toBeVisible();
+  expect(screen.getByAltText('Šátek')).toBeVisible();
 
   await user.click(screen.getByText('Resetovat kameru'));
   await user.click(screen.getByText('Nahrát kroj'));

@@ -1,8 +1,24 @@
-import { useActiveCostume, useAvailableCostumes } from '../Contexts.ts';
-import { useState, type ReactNode } from 'react';
+import {
+  useActiveCostume,
+  useAvailableCostumes,
+  useOpenFullScreenImageContext,
+} from '../Contexts.ts';
+import {
+  useState,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+} from 'react';
 import MenuTrigger from './MenuTrigger.tsx';
-import type { OpenElements, rightMenuButtonsOnClicks } from '../types.ts';
+import type {
+  ActiveCostume,
+  Costume,
+  FullScreenImageInfo,
+  OpenElements,
+  rightMenuButtonsOnClicks,
+} from '../types.ts';
 import CloseButton from './CloseButton.tsx';
+import MenuCard from './MenuCard.tsx';
 
 const SelectedTab = {
   Images: 'Images',
@@ -10,22 +26,125 @@ const SelectedTab = {
   Costumes: 'Costumes',
 };
 
+function PartCard({
+  activeCostume,
+  setActiveCostume,
+  i,
+}: {
+  activeCostume: ActiveCostume;
+  setActiveCostume: Dispatch<SetStateAction<ActiveCostume>>;
+  i: number;
+}) {
+  function handleClick() {
+    setActiveCostume((prev) => ({
+      ...prev,
+      partToggles: prev.partToggles.map((toggle, index) =>
+        index === i
+          ? {
+              ...toggle,
+              isActive: !toggle.isActive,
+            }
+          : toggle,
+      ),
+    }));
+  }
+
+  return (
+    <MenuCard
+      tailWind={
+        activeCostume.partToggles[i].isActive
+          ? 'text-green-600'
+          : 'text-(--font-col)'
+      }
+      key={activeCostume.costume.parts[i].partID}
+      handleClick={handleClick}
+    >
+      {activeCostume.costume.parts[i].name}
+    </MenuCard>
+  );
+}
+
+function CostumeCard({
+  availableCostumeI,
+  setActiveCostume,
+}: {
+  availableCostumeI: Costume;
+  setActiveCostume: Dispatch<SetStateAction<ActiveCostume>>;
+}) {
+  function handleClick() {
+    setActiveCostume({
+      costume: availableCostumeI,
+      partToggles: availableCostumeI.parts.map((part) => ({
+        isActive: true,
+        partID: part.partID,
+      })),
+    });
+  }
+
+  const image = (
+    <img
+      className="h-full max-w-[50%]"
+      src={availableCostumeI.images[0].path}
+      alt="Title Image Missing"
+    />
+  );
+
+  return (
+    <MenuCard
+      handleClick={handleClick}
+      key={availableCostumeI.costumeID}
+      image={image}
+    >
+      {availableCostumeI.name}
+    </MenuCard>
+  );
+}
+
 function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
   let content: ReactNode;
   const { activeCostume, setActiveCostume } = useActiveCostume();
   const { availableCostumes } = useAvailableCostumes();
+  const { openFullScreenImage } = useOpenFullScreenImageContext();
 
   switch (selectedTab) {
     case SelectedTab.Images: {
-      content = activeCostume.costume.images.map((image) => (
-        <div
-          className="h-10 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
-          key={image.imageID}
-        >
-          {image.name}
-        </div>
-      ));
+      const imageButtons = [];
+      const images = activeCostume.costume.images;
+      const fullScreenImageInfos: FullScreenImageInfo[] = [];
 
+      for (let i = 0; i < images.length; i++) {
+        fullScreenImageInfos.push({
+          src: images[i].path,
+          title: images[i].name,
+          prev: null,
+          next: null,
+        });
+      }
+
+      for (let i = 0; i < images.length; i++) {
+        fullScreenImageInfos[i].next =
+          fullScreenImageInfos[(i + 1) % images.length];
+        fullScreenImageInfos[i].prev =
+          fullScreenImageInfos[(i - 1 + images.length) % images.length];
+      }
+
+      for (let i = 0; i < images.length; i++) {
+        imageButtons.push(
+          <div
+            className="w-full h-fit"
+            key={images[i].imageID}
+            onClick={() =>
+              openFullScreenImage({
+                fullScreenImageInfo: fullScreenImageInfos[i],
+              })
+            }
+          >
+            <img src={images[i].path} alt={images[i].name} />
+          </div>,
+        );
+      }
+
+      content = imageButtons.map((button) => button);
       break;
     }
     case SelectedTab.Parts: {
@@ -33,38 +152,15 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
 
       for (let i = 0; i < activeCostume.costume.parts.length; i++) {
         partButtons.push(
-          <div
-            className={`h-10 w-full bg-(--bg) flex justify-center items-center text-center ${activeCostume.partToggles[i].isActive ? 'text-green-600' : 'text-(--font-col)'} text-xl font-(family-name:--default-font)`}
-            key={activeCostume.costume.parts[i].partID}
-            /*onClick={() => {
-              let newActiveCostume = { ...activeCostume };
-              newActiveCostume.partToggles[i].isActive =
-                !newActiveCostume.partToggles[i].isActive;
-
-              setActiveCostume(newActiveCostume);
-            }}*/
-
-            onClick={() => {
-              setActiveCostume((prev) => ({
-                ...prev,
-                partToggles: prev.partToggles.map((toggle, index) =>
-                  index === i
-                    ? {
-                        ...toggle,
-                        isActive: !toggle.isActive,
-                      }
-                    : toggle,
-                ),
-              }));
-            }}
-          >
-            {activeCostume.costume.parts[i].name}
-          </div>,
+          <PartCard
+            activeCostume={activeCostume}
+            setActiveCostume={setActiveCostume}
+            i={i}
+          />,
         );
       }
 
       content = partButtons.map((button) => button);
-
       break;
     }
     case SelectedTab.Costumes: {
@@ -72,26 +168,14 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
 
       for (let i = 0; i < availableCostumes.length; i++) {
         costumeButtons.push(
-          <div
-            className="h-20 w-full bg-(--bg) flex justify-center items-center text-center text-(--font-col) text-xl font-(family-name:--default-font)"
-            key={availableCostumes[i].costumeID}
-            onClick={() =>
-              setActiveCostume({
-                costume: availableCostumes[i],
-                partToggles: availableCostumes[i].parts.map((part) => ({
-                  isActive: true,
-                  partID: part.partID,
-                })),
-              })
-            }
-          >
-            {availableCostumes[i].name}
-          </div>,
+          <CostumeCard
+            availableCostumeI={availableCostumes[i]}
+            setActiveCostume={setActiveCostume}
+          />,
         );
       }
 
       content = costumeButtons.map((button) => button);
-
       break;
     }
     default: {

@@ -11,11 +11,13 @@ Requires Node.js: https://nodejs.org/en/download
 
 Install dependencies:
 
+```bash
 cd ./apps/client
-npm -i
+npm Install
 
 cd ../server
-npm -i
+npm Install
 
 cd ../..
-npm -i
+npm Install
+```
