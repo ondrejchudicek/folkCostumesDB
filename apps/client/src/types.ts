@@ -42,6 +42,7 @@ export interface OpenElements {
   aboutOpen: boolean;
   uploadFormOpen: boolean;
   fullScreenImageOpen: boolean;
+  guideOpen: boolean;
 }
 
 export interface rightMenuButtonsOnClicks {

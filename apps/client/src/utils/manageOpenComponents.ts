@@ -114,3 +114,21 @@ export function closeFullScreenImage(
   newAreOpenElements.fullScreenImageOpen = false;
   setAreOpenElements(newAreOpenElements);
 }
+
+export function openGuide(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.guideOpen = true;
+  setAreOpenElements(newAreOpenElements);
+}
+
+export function closeGuide(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.guideOpen = false;
+  setAreOpenElements(newAreOpenElements);
+}

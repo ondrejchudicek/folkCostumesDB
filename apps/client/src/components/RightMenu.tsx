@@ -93,6 +93,7 @@ function CostumeCard({
     <MenuCard
       handleClick={handleClick}
       key={availableCostumeI.costumeID}
+      tailWind="text-(--font-col)"
       image={image}
     >
       {availableCostumeI.name}

@@ -16,7 +16,7 @@ export default function MenuCard({
   if (image)
     return (
       <div
-        className={`h-40 w-full bg-(--bg) flex justify-center items-center text-center overflow-hidden ${tailWind}`}
+        className={`h-40 w-full bg-(--bg) flex justify-center items-center gap-x-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) text-center font-(family-name:--default-font) text-xl overflow-hidden ${tailWind}`}
         key={key}
         onClick={handleClick}
       >
@@ -26,7 +26,7 @@ export default function MenuCard({
     );
   return (
     <div
-      className={`h-20 w-full bg-(--bg) flex justify-center items-center text-center ${tailWind}`}
+      className={`h-15 w-full bg-(--bg) flex justify-center items-center p-(--global-padding) rounded-(--corner-radius) text-center font-(family-name:--default-font) text-xl ${tailWind}`}
       key={key}
       onClick={handleClick}
     >

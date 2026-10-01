@@ -21,14 +21,14 @@ export default function About({
     <div
       className={`z-23 h-fit w-full p-(--global-padding) bg-(--bg) rounded-(--corner-radius) grid grid-rows[6rem_1fr] grid-cols-2 gap-y-(--global-padding) self-center ${layout} ${visibility}`}
     >
-      <div className="text-(--font-col) text-3xl font-(family-name:--base-font)">
+      <div className="text-(--font-col) text-3xl font-(family-name:--default-font)">
         O aplikaci
       </div>
       <CloseButton
         handleClick={closeAbout}
         tailwind={'col-start-2 justify-self-end'}
       />
-      <div className="row-start-2 col-span-2 text-(--font-col) text-xl font-(family-name:--base-font)">
+      <div className="row-start-2 col-span-2 text-(--font-col) text-xl font-(family-name:--default-font)">
         Cílem aplikace bylo vytvořit veřejný prostor pro dokumentaci
         a&nbsp;prezentaci krojů a&nbsp;přitom zjednodušit proces skenování
         a&nbsp;sdílení modelů.

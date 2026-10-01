@@ -18,10 +18,13 @@ import {
   openFullScreenImage,
   closeFullScreenImage,
   closeUploadForm,
+  closeGuide,
+  openGuide,
 } from '../utils/manageOpenComponents';
 import FullScreenImage from './FullScreenImage';
 import { OpenFullScreenImageContext } from '../Contexts';
 import UploadForm from './UploadForm';
+import Guide from './Guide';
 
 //reads currentCostume and updates itself accordingly, can setCostume
 
@@ -43,6 +46,7 @@ export default function UserInterface({
     aboutOpen: false,
     uploadFormOpen: false,
     fullScreenImageOpen: false,
+    guideOpen: false,
   });
   const [fullScreenImageInfo, setFullScreenImageInfo] =
     useState<FullScreenImageInfo>({
@@ -119,7 +123,13 @@ export default function UserInterface({
           closeUploadForm(areOpenElements, setAreOpenElements)
         }
         isMobileLayout={isMobileLayout}
-      ></UploadForm>
+        openGuide={() => openGuide(areOpenElements, setAreOpenElements)}
+      />
+      <Guide
+        isMobileLayout={isMobileLayout}
+        isOpen={areOpenElements.guideOpen}
+        closeGuide={() => closeGuide(areOpenElements, setAreOpenElements)}
+      />
     </div>
   );
 }
