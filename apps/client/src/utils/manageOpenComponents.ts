@@ -81,6 +81,7 @@ export function openUploadForm(
 ) {
   const newAreOpenElements = { ...areOpenElements };
   newAreOpenElements.uploadFormOpen = true;
+  newAreOpenElements.aboutOpen = false;
   setAreOpenElements(newAreOpenElements);
 
   if (isMobileLayout) closeRightMenu(newAreOpenElements, setAreOpenElements);

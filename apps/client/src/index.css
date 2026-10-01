@@ -16,6 +16,8 @@
 #root {
   height: 100dvh;
   width: 100dvw;
+  max-height: 100dvh;
+  max-width: 100dvw;
   min-width: 0;
   min-height: 0;
   display: flex;

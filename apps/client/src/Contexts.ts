@@ -61,7 +61,7 @@ export function useMobileLayoutContext() {
 }
 
 interface OpenFullScreenImageContextType {
-  openFullScreenImage: (fullScreenImageInfo: FullScreenImageInfo) => void;
+  openAndSetFullScreenImage: (fullScreenImageInfo: FullScreenImageInfo) => void;
 }
 
 export const OpenFullScreenImageContext =

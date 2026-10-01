@@ -13,11 +13,13 @@ export default function About({
   const visibility = areOpenElements.aboutOpen
     ? 'opacity-100 pointer-events-auto'
     : 'opacity-0 pointer-events-none';
-  const layout = isMobileLayout ? 'col-start-1 row-start-1' : 'col-start-2';
+  const layout = isMobileLayout
+    ? 'col-start-1 row-start-1'
+    : 'col-start-2 row-start-1';
 
   return (
     <div
-      className={`z-23 h-fit w-full p-(--global-padding) bg-(--bg) rounded-(--corner-radius) grid grid-rows[6rem_1rem] grid-cols-2 gap-y-(--global-padding) self-center ${layout} ${visibility}`}
+      className={`z-23 h-fit w-full p-(--global-padding) bg-(--bg) rounded-(--corner-radius) grid grid-rows[6rem_1fr] grid-cols-2 gap-y-(--global-padding) self-center ${layout} ${visibility}`}
     >
       <div className="text-(--font-col) text-3xl font-(family-name:--base-font)">
         O aplikaci

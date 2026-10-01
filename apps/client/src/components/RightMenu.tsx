@@ -104,7 +104,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
   let content: ReactNode;
   const { activeCostume, setActiveCostume } = useActiveCostume();
   const { availableCostumes } = useAvailableCostumes();
-  const { openFullScreenImage } = useOpenFullScreenImageContext();
+  const { openAndSetFullScreenImage } = useOpenFullScreenImageContext();
 
   switch (selectedTab) {
     case SelectedTab.Images: {
@@ -133,11 +133,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
           <div
             className="w-full h-fit"
             key={images[i].imageID}
-            onClick={() =>
-              openFullScreenImage({
-                fullScreenImageInfo: fullScreenImageInfos[i],
-              })
-            }
+            onClick={() => openAndSetFullScreenImage(fullScreenImageInfos[i])}
           >
             <img src={images[i].path} alt={images[i].name} />
           </div>,
@@ -201,7 +197,7 @@ function RightMenuMain({
 
   return (
     <div
-      className={`h-full min-h-0 w-full p-(--global-padding) bg-(--bg) rounded-(--corner-radius) grid grid-rows-[5rem_1fr] gap-y-(--global-padding)`}
+      className={`h-full min-h-0 w-full p-(--global-padding) bg-(--bg) rounded-(--corner-radius) grid grid-rows-[2rem_1fr] gap-y-(--global-padding)`}
     >
       <div className="h-full w-full flex flex-row justify-between items-center">
         <button

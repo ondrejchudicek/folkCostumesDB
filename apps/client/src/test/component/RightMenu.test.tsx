@@ -182,7 +182,9 @@ function ContextWrapper({
       >
         <OpenFullScreenImageContext.Provider
           value={{
-            openFullScreenImage(fullScreenImageInfo: FullScreenImageInfo) {
+            openAndSetFullScreenImage(
+              fullScreenImageInfo: FullScreenImageInfo,
+            ) {
               openFullScreenImage(areOpenElements, setAreOpenElements);
               setFullScreenImageInfo(fullScreenImageInfo);
             },
