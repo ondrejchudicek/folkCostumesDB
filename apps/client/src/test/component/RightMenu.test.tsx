@@ -172,6 +172,7 @@ function ContextWrapper({
     aboutOpen: false,
     uploadFormOpen: false,
     fullScreenImageOpen: false,
+    guideOpen: false,
   });
   const setFullScreenImageInfo = vi.fn();
 

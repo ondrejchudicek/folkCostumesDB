@@ -13,6 +13,7 @@ it('renders About panel', () => {
     aboutOpen: true,
     uploadFormOpen: false,
     fullScreenImageOpen: false,
+    guideOpen: false,
   };
 
   render(
@@ -36,6 +37,7 @@ it('close About panel', async () => {
       aboutOpen: true,
       uploadFormOpen: false,
       fullScreenImageOpen: false,
+      guideOpen: false,
     });
 
     function closeAbout() {

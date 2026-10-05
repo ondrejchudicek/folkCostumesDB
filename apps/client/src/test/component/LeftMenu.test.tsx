@@ -116,6 +116,7 @@ function ContextWrapper({
     aboutOpen: false,
     uploadFormOpen: false,
     fullScreenImageOpen: false,
+    guideOpen: false,
   });
 
   return (
