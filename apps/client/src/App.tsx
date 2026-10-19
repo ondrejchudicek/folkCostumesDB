@@ -143,6 +143,8 @@ const initialActiveCostume: ActiveCostume = {
 
 // for testing ------------------------------
 
+const availableCostumesJSON = await (await fetch('/api/available')).json();
+
 // stores activeCostume and availableCostumes
 // shares activeCostume with rendrer and UI, shares availableCostumes with UI.
 export default function App() {
@@ -151,7 +153,7 @@ export default function App() {
   );
   const [activeCostume, setActiveCostume] =
     useState<ActiveCostume>(initialActiveCostume);
-  const availableCostumes: Costume[] = avC; //wont change, will eventually load from server
+  const availableCostumes: Costume[] = availableCostumesJSON;
   const [isMobileLayout, setIsMobileLayout] = useState<boolean>(
     window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1080,
   );
