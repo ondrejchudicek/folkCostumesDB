@@ -6,9 +6,11 @@ export default function CloseButton({
   tailwind?: string | null;
 }) {
   return (
-    <button
-      className={`h-10 w-10 bg-red-500 ${tailwind}`}
+    <img
+      src="cross.svg"
+      alt="Close"
+      className={`h-6 w-6 ${tailwind}`}
       onClick={handleClick}
-    ></button>
+    ></img>
   );
 }

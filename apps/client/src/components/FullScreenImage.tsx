@@ -31,12 +31,16 @@ export default function FullScreenImage({
         }
         handleClick={closeFullScreenImage}
       />
-      <button
-        className="z-22 h-20 w-10 absolute left-(--global-padding) top-[50%] -translate-y-1/2 bg-red-600"
+      <img
+        src="arrow.svg"
+        alt="Left Arrow"
+        className="z-22 h-20 w-12 absolute left-(--global-padding) top-[50%] -translate-y-1/2"
         onClick={prev}
       />
-      <button
-        className="z-22 h-20 w-10 absolute right-(--global-padding) top-[50%] -translate-y-1/2 bg-red-600"
+      <img
+        src="arrow.svg"
+        alt="Roght Arrow"
+        className="rotate-180 z-22 h-20 w-12 absolute right-(--global-padding) top-[50%] -translate-y-1/2"
         onClick={next}
       />
       {fullScreenImageInfo.src && (

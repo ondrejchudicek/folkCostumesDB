@@ -143,7 +143,8 @@ const initialActiveCostume: ActiveCostume = {
 
 // for testing ------------------------------
 
-const availableCostumesJSON = await (await fetch('/api/available')).json();
+const availableCostumesJSON = await (await fetch('/api/costumes')).json();
+console.log(availableCostumesJSON);
 
 // stores activeCostume and availableCostumes
 // shares activeCostume with rendrer and UI, shares availableCostumes with UI.

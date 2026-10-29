@@ -161,6 +161,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
       break;
     }
     case SelectedTab.Costumes: {
+      // fails because tryuing ot access images which the JSON no lkonger provides
       const costumeButtons: ReactNode[] = [];
 
       for (let i = 0; i < availableCostumes.length; i++) {
@@ -200,19 +201,25 @@ function RightMenuMain({
     <div
       className={`h-full min-h-0 w-full p-(--global-padding) bg-(--bg) rounded-(--corner-radius) grid grid-rows-[2rem_1fr] gap-y-(--global-padding)`}
     >
-      <div className="h-full w-full flex flex-row justify-between items-center">
+      <div className="h-full w-full flex flex-row justify-around items-center">
         <button
           className={`${selectedTab === SelectedTab.Images ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
           onClick={() => setSelectedTab(SelectedTab.Images)}
         >
           Fotky
         </button>
+        <span className="text-(--font-col) font-(family-name:--default-font) text-xl">
+          |
+        </span>
         <button
           className={`${selectedTab === SelectedTab.Parts ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
           onClick={() => setSelectedTab(SelectedTab.Parts)}
         >
           Části
         </button>
+        <span className="text-(--font-col) font-(family-name:--default-font) text-xl">
+          |
+        </span>
         <button
           className={`${selectedTab === SelectedTab.Costumes ? 'text-green-600' : 'text-(--font-col)'} font-(family-name:--default-font) text-xl`}
           onClick={() => setSelectedTab(SelectedTab.Costumes)}

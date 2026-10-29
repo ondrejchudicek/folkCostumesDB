@@ -44,10 +44,10 @@ export default function Guide({
       >
         <div className="relative overflow-hidden">
           <Text page={page} />
-          <div className="absolute bottom-0 h-25 w-full bg-linear-180 from-green-950-0% to-green-950"></div>
+          <div className="pointer-events-none absolute bottom-0 h-25 w-full bg-linear-180 from-green-950-0% to-green-950"></div>
         </div>
         <img
-          src={`../public/tutorial_images/${guideText[page].imageName}`}
+          src={`/tutorial_images/${guideText[page].imageName}`}
           alt={guideText[page].imageName}
           className="h-full w-full min-h-0 min-w-0 object-contain block"
         ></img>
@@ -55,16 +55,20 @@ export default function Guide({
         <div
           className={`flex flex-row items-center justify-around ${isMobileLayout ? '' : 'col-span-2'}`}
         >
-          <div
-            className="h-10 w-10 bg-red-600"
+          <img
+            src="arrow.svg"
+            alt="Left Arrow"
+            className="h-10 w-10"
             onClick={() =>
               setPage((page - 1 + guideText.length) % guideText.length)
             }
-          ></div>
-          <div
-            className="h-10 w-10 bg-red-600"
+          ></img>
+          <img
+            src="arrow.svg"
+            alt="Left Arrow"
+            className="rotate-180 h-10 w-10"
             onClick={() => setPage((page + 1) % guideText.length)}
-          ></div>
+          ></img>
         </div>
       </div>
 

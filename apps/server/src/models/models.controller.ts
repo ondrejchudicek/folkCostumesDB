@@ -7,6 +7,6 @@ export class ModelsController {
 
   @Get(':id')
   getModel(@Param('id') id: string) {
-    return this.modelsService.getModels(id);
+    return this.modelsService.getModel(id);
   }
 }

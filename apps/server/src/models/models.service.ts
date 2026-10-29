@@ -5,9 +5,8 @@ import { join } from 'node:path';
 
 @Injectable()
 export class ModelsService {
-  async getModels(id: string) {
-    // TODO: Fetch the file from your database
-    // returns all GLBs that a costume with given id contains
+  async getModel(id: string) {
+    // returns a GLB with specific id
 
     // this works
     const file = createReadStream(join(process.cwd(), 'uploads', 'models', id));
