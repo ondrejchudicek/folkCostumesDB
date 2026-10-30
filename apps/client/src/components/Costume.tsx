@@ -11,7 +11,7 @@ import { useCostumePartsModels } from '../utils/loadCostume.ts';
 // prob have to load costume with GLTFLoader externally and change active costume when its ready
 export default function Costume() {
   const { activeCostume } = useActiveCostume();
-  const costumePartsModels = useCostumePartsModels(activeCostume.costume);
+  const costumePartsModels = useCostumePartsModels(activeCostume.parts);
 
   const toRender: ToRender[] = prepareRenderedParts(
     activeCostume.partToggles,

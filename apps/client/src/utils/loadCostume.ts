@@ -5,11 +5,13 @@
  */
 
 import { useGLTF } from '@react-three/drei';
-import type { Costume, Model3D } from '../types';
+import type { Model3D, Part } from '../types';
 import * as THREE from 'three';
 
-export function useCostumePartsModels(costume: Costume): Model3D[] {
-  const paths = costume.parts.map((part) => part.path);
+const API = 'http://localhost:3000';
+
+export function useCostumePartsModels(parts: Part[]): Model3D[] {
+  const paths = parts.map((part) => `${API}/api/models/${part.partID}`);
 
   const models = useGLTF(paths);
 

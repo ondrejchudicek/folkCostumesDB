@@ -12,7 +12,7 @@ export function prepareRenderedParts(
     if (partToggles[i].isActive) {
       toRender.push({
         model: costumePartsModels[i],
-        key: partToggles[i].partID,
+        key: partToggles[i].partID.toString(),
       });
     }
   }

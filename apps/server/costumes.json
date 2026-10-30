@@ -7,79 +7,79 @@
       {
         "partID": "part_18de65c8-75f9-4120-946c-eac9e8a66711_0",
         "name": "Čižmy",
-        "path": "/api/models/19aa583e-8c75-4d48-b4f6-372685178f55-boty2.glb"
+        "path": "19aa583e-8c75-4d48-b4f6-372685178f55-boty2.glb"
       },
       {
         "partID": "part_18de65c8-75f9-4120-946c-eac9e8a66711_1",
         "name": "Nohavice",
-        "path": "/api/models/cec8dcf6-2fa2-426c-9840-43523f641e54-gate2.glb"
+        "path": "cec8dcf6-2fa2-426c-9840-43523f641e54-gate2.glb"
       },
       {
         "partID": "part_18de65c8-75f9-4120-946c-eac9e8a66711_2",
         "name": "Klobúk",
-        "path": "/api/models/5d34007c-bb74-494e-8022-d4f4d9f19ed8-klobuk.glb"
+        "path": "5d34007c-bb74-494e-8022-d4f4d9f19ed8-klobuk.glb"
       },
       {
         "partID": "part_18de65c8-75f9-4120-946c-eac9e8a66711_3",
         "name": "Kordula",
-        "path": "/api/models/a3906112-8d35-4b45-897e-8ab2e5685d39-kordula3.glb"
+        "path": "a3906112-8d35-4b45-897e-8ab2e5685d39-kordula3.glb"
       },
       {
         "partID": "part_18de65c8-75f9-4120-946c-eac9e8a66711_4",
         "name": "Košela",
-        "path": "/api/models/03e0a448-fd59-450c-8d56-40e97a986c91-kosela3.glb"
+        "path": "03e0a448-fd59-450c-8d56-40e97a986c91-kosela3.glb"
       },
       {
         "partID": "part_18de65c8-75f9-4120-946c-eac9e8a66711_5",
         "name": "Šátek",
-        "path": "/api/models/6db672b4-eb4a-43a8-acc3-442012629129-satek2.glb"
+        "path": "6db672b4-eb4a-43a8-acc3-442012629129-satek2.glb"
       }
     ],
     "images": [
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_0",
         "name": "Nedělní kroj",
-        "path": "/api/images/5d60a609-178e-4e6a-b3fb-bb67d1cef811-1.jpg"
+        "path": "5d60a609-178e-4e6a-b3fb-bb67d1cef811-1.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_1",
         "name": "Kordula",
-        "path": "/api/images/072fb165-9390-48bb-bddf-363f8c287e8d-2.jpg"
+        "path": "072fb165-9390-48bb-bddf-363f8c287e8d-2.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_2",
         "name": "Vyšívání na kordule",
-        "path": "/api/images/7964ed96-e5e6-4b76-b82f-98f64eb01ec6-3.jpg"
+        "path": "7964ed96-e5e6-4b76-b82f-98f64eb01ec6-3.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_3",
         "name": "Vyšívaná košela",
-        "path": "/api/images/b3ee0be2-2160-4cea-ad51-573023b2518e-4.jpg"
+        "path": "b3ee0be2-2160-4cea-ad51-573023b2518e-4.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_4",
         "name": "Súkené nohavice",
-        "path": "/api/images/a00ab324-fd98-413f-bb8c-b9c9c11c6541-5.jpg"
+        "path": "a00ab324-fd98-413f-bb8c-b9c9c11c6541-5.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_5",
         "name": "Šátek",
-        "path": "/api/images/a0b1c774-9edc-48d4-9174-f34d8cd3d939-6.jpg"
+        "path": "a0b1c774-9edc-48d4-9174-f34d8cd3d939-6.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_6",
         "name": "Kožené čižmy",
-        "path": "/api/images/1dfe973c-8273-4bfe-b8a0-c89424e10aaf-7.jpg"
+        "path": "1dfe973c-8273-4bfe-b8a0-c89424e10aaf-7.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_7",
         "name": "Klobúk s kosárkem",
-        "path": "/api/images/486b8532-734d-4e6b-b3d6-e68a0bede7a3-8.jpg"
+        "path": "486b8532-734d-4e6b-b3d6-e68a0bede7a3-8.jpg"
       },
       {
         "imageID": "image_18de65c8-75f9-4120-946c-eac9e8a66711_8",
         "name": "Na lúkách",
-        "path": "/api/images/688b5897-2ba8-4c6c-a7bd-153a398a0cd4-9.jpg"
+        "path": "688b5897-2ba8-4c6c-a7bd-153a398a0cd4-9.jpg"
       }
     ]
   },
@@ -91,29 +91,29 @@
       {
         "partID": "part_088a1718-70c2-421e-b151-1121115a8e3d_0",
         "name": "Kroj",
-        "path": "/api/models/66f2cb99-b1b4-4ac8-a259-b3dec91147a6-teta_exp.glb"
+        "path": "66f2cb99-b1b4-4ac8-a259-b3dec91147a6-teta_exp.glb"
       }
     ],
     "images": [
       {
         "imageID": "image_088a1718-70c2-421e-b151-1121115a8e3d_0",
         "name": "Nedělní kroj",
-        "path": "/api/images/f1a2785e-8855-4e63-9d4f-aeeb17513e90-IMG_5674.jpg"
+        "path": "f1a2785e-8855-4e63-9d4f-aeeb17513e90-IMG_5674.jpg"
       },
       {
         "imageID": "image_088a1718-70c2-421e-b151-1121115a8e3d_1",
         "name": "Fěrtúšek",
-        "path": "/api/images/8b10d771-abd9-4d89-a480-7c8c9df6d7eb-IMG_5678.jpg"
+        "path": "8b10d771-abd9-4d89-a480-7c8c9df6d7eb-IMG_5678.jpg"
       },
       {
         "imageID": "image_088a1718-70c2-421e-b151-1121115a8e3d_2",
         "name": "Jupka",
-        "path": "/api/images/a0ef0ac3-ceb1-48c8-9849-305de3fa2262-IMG_5679.jpg"
+        "path": "a0ef0ac3-ceb1-48c8-9849-305de3fa2262-IMG_5679.jpg"
       },
       {
         "imageID": "image_088a1718-70c2-421e-b151-1121115a8e3d_3",
         "name": "Šátek",
-        "path": "/api/images/9a491578-26be-44de-9702-6e7ca68de23e-IMG_5681.jpg"
+        "path": "9a491578-26be-44de-9702-6e7ca68de23e-IMG_5681.jpg"
       }
     ]
   }

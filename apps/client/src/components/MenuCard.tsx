@@ -3,13 +3,13 @@ import type { ReactNode } from 'react';
 export default function MenuCard({
   handleClick,
   tailWind,
-  key,
+  kkey,
   children,
   image,
 }: {
   handleClick: () => void;
   tailWind?: string;
-  key: string;
+  kkey: string;
   image?: ReactNode;
   children?: ReactNode;
 }) {
@@ -17,7 +17,7 @@ export default function MenuCard({
     return (
       <div
         className={`h-40 w-full bg-(--bg) flex justify-center items-center gap-x-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) text-center font-(family-name:--default-font) text-xl overflow-hidden ${tailWind}`}
-        key={key}
+        key={kkey}
         onClick={handleClick}
       >
         {image}
@@ -27,7 +27,7 @@ export default function MenuCard({
   return (
     <div
       className={`h-15 w-full bg-(--bg) flex justify-center items-center p-(--global-padding) rounded-(--corner-radius) text-center font-(family-name:--default-font) text-xl ${tailWind}`}
-      key={key}
+      key={kkey}
       onClick={handleClick}
     >
       {children}

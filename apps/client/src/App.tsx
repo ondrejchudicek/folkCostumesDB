@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import UserInterface from './components/UserInterface';
 import Renderer from './components/Renderer';
-import type { ActiveCostume, Costume } from './types.ts';
+import type { ActiveCostume, Costume, Part, Image } from './types.ts';
 import {
   ActiveCostumeContext,
   AvailableCostumesContext,
@@ -10,7 +10,7 @@ import {
 } from './Contexts.ts';
 
 // for testing ------------------------------
-const avC: Costume[] = [
+/*const avC: Costume[] = [
   {
     costumeID: '18de65c8-75f9-4120-946c-eac9e8a66711',
     name: 'Kněždubský mužský nedělní kroj',
@@ -139,12 +139,29 @@ const initialActiveCostume: ActiveCostume = {
     isActive: true,
     partID: part.partID,
   })),
-};
+};*/
 
 // for testing ------------------------------
 
 const availableCostumesJSON = await (await fetch('/api/costumes')).json();
-console.log(availableCostumesJSON);
+
+const initialActiveCostumeParts: Part[] = await (
+  await fetch(`/api/costumes/models/${availableCostumesJSON[0].costumeID}`)
+).json();
+
+const initialActiveCostumePartsImages: Image[] = await (
+  await fetch(`/api/costumes/images/${availableCostumesJSON[0].costumeID}`)
+).json();
+
+const initialActiveCostume: ActiveCostume = {
+  costume: availableCostumesJSON[0],
+  partToggles: initialActiveCostumeParts.map((part) => ({
+    isActive: true,
+    partID: part.partID,
+  })),
+  parts: initialActiveCostumeParts,
+  images: initialActiveCostumePartsImages,
+};
 
 // stores activeCostume and availableCostumes
 // shares activeCostume with rendrer and UI, shares availableCostumes with UI.

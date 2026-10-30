@@ -1,33 +1,32 @@
 import { type Group, type Object3DEventMap } from 'three';
 
 export interface Costume {
-  costumeID: string;
+  costumeID: number;
   name: string;
   description: string;
-  parts: Part[];
-  images: Image[];
+  thumbnailImageID: number | null;
 }
 
 export interface Part {
-  partID: string;
+  partID: number;
   name: string;
-  path: string;
 }
 
 export interface Image {
-  imageID: string;
+  imageID: number;
   name: string;
-  path: string;
 }
 
 export interface PartToggle {
   isActive: boolean;
-  partID: string;
+  partID: number;
 }
 
 export interface ActiveCostume {
   costume: Costume;
   partToggles: PartToggle[];
+  parts: Part[];
+  images: Image[];
 }
 
 export type AvailableCostumes = Costume[];

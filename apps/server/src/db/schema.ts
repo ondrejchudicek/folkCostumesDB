@@ -3,7 +3,7 @@ import {
   integer,
   pgTable,
   text,
-  uniqueIndex,
+  boolean,
 } from 'drizzle-orm/pg-core';
 
 export const costumes = pgTable('costumes', {
@@ -25,6 +25,7 @@ export const images = pgTable('images', {
   costumeID: integer()
     .notNull()
     .references(() => costumes.costumeID),
+  isThumbnail: boolean().default(false),
 });
 
 export type Image = typeof images.$inferSelect;

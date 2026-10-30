@@ -15,10 +15,14 @@ import type {
   Costume,
   FullScreenImageInfo,
   OpenElements,
+  Part,
+  Image,
   rightMenuButtonsOnClicks,
 } from '../types.ts';
 import CloseButton from './CloseButton.tsx';
 import MenuCard from './MenuCard.tsx';
+
+const API = 'http://localhost:3000';
 
 const SelectedTab = {
   Images: 'Images',
@@ -56,10 +60,10 @@ function PartCard({
           ? 'text-green-600'
           : 'text-(--font-col)'
       }
-      key={activeCostume.costume.parts[i].partID}
+      kkey={activeCostume.parts[i].partID.toString()}
       handleClick={handleClick}
     >
-      {activeCostume.costume.parts[i].name}
+      {activeCostume.parts[i].name}
     </MenuCard>
   );
 }
@@ -71,30 +75,51 @@ function CostumeCard({
   availableCostumeI: Costume;
   setActiveCostume: Dispatch<SetStateAction<ActiveCostume>>;
 }) {
-  function handleClick() {
+  async function handleClick() {
+    const parts: Part[] = await (
+      await fetch(`/api/costumes/models/${availableCostumeI.costumeID}`)
+    ).json();
+    const images: Image[] = await (
+      await fetch(`/api/costumes/images/${availableCostumeI.costumeID}`)
+    ).json();
+
     setActiveCostume({
       costume: availableCostumeI,
-      partToggles: availableCostumeI.parts.map((part) => ({
+      partToggles: parts.map((part) => ({
         isActive: true,
         partID: part.partID,
       })),
+      parts,
+      images,
     });
   }
 
-  const image = (
-    <img
-      className="h-full max-w-[50%]"
-      src={availableCostumeI.images[0].path}
-      alt="Title Image Missing"
-    />
-  );
+  if (availableCostumeI.thumbnailImageID) {
+    const image = (
+      <img
+        className="h-full max-w-[50%]"
+        src={`${API}/api/images/${availableCostumeI.thumbnailImageID}`}
+        alt="Title Image Missing"
+      />
+    );
+
+    return (
+      <MenuCard
+        handleClick={handleClick}
+        kkey={availableCostumeI.costumeID.toString()}
+        tailWind="text-(--font-col)"
+        image={image}
+      >
+        {availableCostumeI.name}
+      </MenuCard>
+    );
+  }
 
   return (
     <MenuCard
       handleClick={handleClick}
-      key={availableCostumeI.costumeID}
+      kkey={availableCostumeI.costumeID.toString()}
       tailWind="text-(--font-col)"
-      image={image}
     >
       {availableCostumeI.name}
     </MenuCard>
@@ -110,12 +135,12 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
   switch (selectedTab) {
     case SelectedTab.Images: {
       const imageButtons = [];
-      const images = activeCostume.costume.images;
+      const images = activeCostume.images;
       const fullScreenImageInfos: FullScreenImageInfo[] = [];
 
       for (let i = 0; i < images.length; i++) {
         fullScreenImageInfos.push({
-          src: images[i].path,
+          src: `${API}/api/images/${images[i].imageID}`,
           title: images[i].name,
           prev: null,
           next: null,
@@ -136,7 +161,10 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
             key={images[i].imageID}
             onClick={() => openAndSetFullScreenImage(fullScreenImageInfos[i])}
           >
-            <img src={images[i].path} alt={images[i].name} />
+            <img
+              src={`${API}/api/images/${images[i].imageID}`}
+              alt={images[i].name}
+            />
           </div>,
         );
       }
@@ -147,12 +175,13 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
     case SelectedTab.Parts: {
       const partButtons: ReactNode[] = [];
 
-      for (let i = 0; i < activeCostume.costume.parts.length; i++) {
+      for (let i = 0; i < activeCostume.parts.length; i++) {
         partButtons.push(
           <PartCard
             activeCostume={activeCostume}
             setActiveCostume={setActiveCostume}
             i={i}
+            key={activeCostume.parts[i].partID.toString()}
           />,
         );
       }
@@ -161,7 +190,6 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
       break;
     }
     case SelectedTab.Costumes: {
-      // fails because tryuing ot access images which the JSON no lkonger provides
       const costumeButtons: ReactNode[] = [];
 
       for (let i = 0; i < availableCostumes.length; i++) {
@@ -169,6 +197,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
           <CostumeCard
             availableCostumeI={availableCostumes[i]}
             setActiveCostume={setActiveCostume}
+            key={availableCostumes[i].costumeID.toString()}
           />,
         );
       }
