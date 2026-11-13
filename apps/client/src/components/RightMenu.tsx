@@ -22,7 +22,7 @@ import type {
 import CloseButton from './CloseButton.tsx';
 import MenuCard from './MenuCard.tsx';
 
-const API = 'http://localhost:3000';
+const API = 'http://localhost:3000/api';
 
 const SelectedTab = {
   Images: 'Images',
@@ -77,10 +77,10 @@ function CostumeCard({
 }) {
   async function handleClick() {
     const parts: Part[] = await (
-      await fetch(`/api/costumes/models/${availableCostumeI.costumeID}`)
+      await fetch(`${API}/costumes/models/${availableCostumeI.costumeID}`)
     ).json();
     const images: Image[] = await (
-      await fetch(`/api/costumes/images/${availableCostumeI.costumeID}`)
+      await fetch(`${API}/costumes/images/${availableCostumeI.costumeID}`)
     ).json();
 
     setActiveCostume({
@@ -98,7 +98,7 @@ function CostumeCard({
     const image = (
       <img
         className="h-full max-w-[50%]"
-        src={`${API}/api/images/${availableCostumeI.thumbnailImageID}`}
+        src={`${API}/images/${availableCostumeI.thumbnailImageID}`}
         alt="Title Image Missing"
       />
     );
@@ -140,7 +140,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
 
       for (let i = 0; i < images.length; i++) {
         fullScreenImageInfos.push({
-          src: `${API}/api/images/${images[i].imageID}`,
+          src: `${API}/images/${images[i].imageID}`,
           title: images[i].name,
           prev: null,
           next: null,
@@ -162,7 +162,7 @@ function RightMenuMainContent({ selectedTab }: { selectedTab: string }) {
             onClick={() => openAndSetFullScreenImage(fullScreenImageInfos[i])}
           >
             <img
-              src={`${API}/api/images/${images[i].imageID}`}
+              src={`${API}/images/${images[i].imageID}`}
               alt={images[i].name}
             />
           </div>,

@@ -132,3 +132,21 @@ export function closeGuide(
   newAreOpenElements.guideOpen = false;
   setAreOpenElements(newAreOpenElements);
 }
+
+export function openStatus(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.statusOpen = true;
+  setAreOpenElements(newAreOpenElements);
+}
+
+export function closeStatus(
+  areOpenElements: OpenElements,
+  setAreOpenElements: Dispatch<SetStateAction<OpenElements>>,
+) {
+  const newAreOpenElements = { ...areOpenElements };
+  newAreOpenElements.statusOpen = false;
+  setAreOpenElements(newAreOpenElements);
+}

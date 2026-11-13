@@ -1,5 +1,10 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, type Dispatch, type SetStateAction } from 'react';
 import CloseButton from './CloseButton';
+import { useSetIsLoadingContext } from '../Contexts';
+import type { CostumeFormElement, StatusState } from '../types';
+
+const TOTAL_FILE_LIMIT = 150;
+const API = 'http://localhost:3000/api';
 
 function FormButtons({
   resetForm,
@@ -25,7 +30,10 @@ function FormButtons({
       <button className="bg-(--bg) pl-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) font-(family-name:--default-font) text-xl text-(--font-col) text-center">
         Náhled
       </button>
-      <button className="bg-(--bg) pl-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) font-(family-name:--default-font) text-xl text-green-600 text-center">
+      <button
+        className="bg-(--bg) pl-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) font-(family-name:--default-font) text-xl text-green-600 text-center"
+        type="submit"
+      >
         Nahrát
       </button>
     </div>
@@ -33,36 +41,141 @@ function FormButtons({
 }
 
 function UploadedModels({ uploadedModels }: { uploadedModels: File[] }) {
-  return uploadedModels.map((model) => (
-    <input
-      type="text"
-      className="w-full h-10 bg-(--bg) rounded-(--corner-radius) p-(--global-padding) font-(family-name:--default-font) text-xl text-(--font-col)"
-      name="name"
-      placeholder={model.name}
-      autoComplete="off"
-      required
-    />
-  ));
+  const models = [];
+
+  for (let i = 0; i < uploadedModels.length; i++) {
+    models.push(
+      <input
+        type="text"
+        className="w-full h-10 bg-(--bg) rounded-(--corner-radius) p-(--global-padding) font-(family-name:--default-font) text-xl text-(--font-col)"
+        name="partNames"
+        placeholder={uploadedModels[0].name}
+        autoComplete="off"
+        required
+        key={i}
+      />,
+    );
+  }
+
+  return models.map((model) => model);
 }
 
 function UploadedImages({ uploadedImages }: { uploadedImages: File[] }) {
+  const images = [];
+  for (let i = 0; i < uploadedImages.length; i++) {
+    images.push(
+      <div
+        className="w-full h-fit flex flex-col gap-y-(--global-padding) p-(--global-padding) bg-(--bg) rounded-(--corner-radius)"
+        key={i}
+      >
+        <img src={URL.createObjectURL(uploadedImages[i])} alt="Image Missing" />
+        <input
+          type="text"
+          className="w-full h-10 bg-(--bg) p-(--global-padding) font-(family-name:--default-font) text-xl text-(--font-col)"
+          name="imageNames"
+          placeholder={uploadedImages[i].name}
+          autoComplete="off"
+          required
+        />
+      </div>,
+    );
+  }
+
   return (
     <div className="w-full h-fit grid grid-cols-2 gap-(--global-padding)">
-      {uploadedImages.map((image) => (
-        <div className="w-full h-fit flex flex-col gap-y-(--global-padding) p-(--global-padding) bg-(--bg) rounded-(--corner-radius)">
-          <img src={URL.createObjectURL(image)} alt="Image Missing" />
-          <input
-            type="text"
-            className="w-full h-10 bg-(--bg) p-(--global-padding) font-(family-name:--default-font) text-xl text-(--font-col)"
-            name="name"
-            placeholder={image.name}
-            autoComplete="off"
-            required
-          />
-        </div>
-      ))}
+      {images.map((image) => image)}
     </div>
   );
+}
+
+function checkSubmitSize(form: CostumeFormElement) {
+  const partFiles = form.elements.partFiles.files;
+  const images = form.elements.images.files;
+  let fileSize = 0;
+
+  if (partFiles) {
+    for (let i = 0; i < partFiles.length; i++) {
+      fileSize += partFiles[i].size / 1024 / 1024;
+    }
+  }
+
+  if (images) {
+    for (let i = 0; i < images.length; i++) {
+      fileSize += images[i].size / 1024 / 1024;
+    }
+  }
+
+  return fileSize;
+}
+
+async function submitForm(
+  form: React.SubmitEvent<CostumeFormElement>,
+  closeUploadForm: () => void,
+  openStatus: () => void,
+  closeStatus: () => void,
+  resetForm: () => void,
+  setIsLoading: Dispatch<SetStateAction<boolean>>,
+  setStatus: Dispatch<SetStateAction<StatusState>>,
+) {
+  form.preventDefault();
+  const formTarget = form.currentTarget as CostumeFormElement;
+  closeUploadForm();
+  setIsLoading(true);
+
+  const fileSize = checkSubmitSize(formTarget);
+
+  if (fileSize > TOTAL_FILE_LIMIT) {
+    setIsLoading(false);
+    // TODO: display status file limit exceeded
+    setStatus({ tailwind: 'text-red-600', text: 'File size limit exceeded' });
+    openStatus();
+
+    setTimeout(() => {
+      // TODO: remove status
+      closeStatus();
+    }, 4000);
+
+    return -1;
+  }
+
+  const formData = new FormData(formTarget);
+  const response = await fetch(`${API}/newCostume`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  const responseData = await response.json();
+
+  setIsLoading(false);
+
+  // multer error
+  if (!response.ok) {
+    // TODO: display status file limit exceeded
+    setStatus({ tailwind: 'text-red-600', text: 'File size limit exceeded' });
+    openStatus();
+
+    setTimeout(() => {
+      // TODO: remove status
+      closeStatus();
+    }, 4000);
+
+    return -1;
+  }
+
+  // success
+  if (typeof responseData !== 'undefined') {
+    // TODO: display status uploaded successfully
+    setStatus({ tailwind: 'text-green-600', text: 'Uploaded successfully' });
+    openStatus();
+
+    setTimeout(() => {
+      // TODO: remove status
+      resetForm();
+      closeStatus();
+    }, 2000);
+  }
+
+  return 1;
 }
 
 export default function UploadForm({
@@ -70,11 +183,17 @@ export default function UploadForm({
   closeUploadForm,
   isMobileLayout,
   openGuide,
+  openStatus,
+  closeStatus,
+  setStatus,
 }: {
   isOpen: boolean;
   closeUploadForm: () => void;
   isMobileLayout: boolean;
   openGuide: () => void;
+  openStatus: () => void;
+  closeStatus: () => void;
+  setStatus: Dispatch<SetStateAction<StatusState>>;
 }) {
   const visibility = isOpen
     ? 'opacity-100 pointer-events-auto'
@@ -98,6 +217,7 @@ export default function UploadForm({
 
   const [uploadedModels, setUploadedModels] = useState<File[]>([]);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const setIsLoading = useSetIsLoadingContext();
 
   function handleModelsUploaded(event: React.ChangeEvent<HTMLInputElement>) {
     setUploadedModels(Array.from(event.target.files ?? []));
@@ -106,12 +226,32 @@ export default function UploadForm({
     setUploadedImages(Array.from(event.target.files ?? []));
   }
 
+  function resetForm() {
+    setUploadedModels([]);
+    setUploadedImages([]);
+    if (uploadModelsRef.current) uploadModelsRef.current.value = '';
+    if (uploadImagesRef.current) uploadImagesRef.current.value = '';
+    if (nameRef.current) nameRef.current.value = '';
+    if (descriptionRef.current) descriptionRef.current.value = '';
+  }
+
   return (
     <form
       className={`z-23 h-full w-full p-(--global-padding) grid grid-rows-[1fr_3rem] gap-y-(--global-padding) self-center justify-self-center ${layout} ${visibility}`}
       autoComplete="off"
       method="POST"
       encType="multipart/form-data"
+      onSubmit={async (e: React.SubmitEvent<CostumeFormElement>) => {
+        submitForm(
+          e,
+          closeUploadForm,
+          openStatus,
+          closeStatus,
+          resetForm,
+          setIsLoading,
+          setStatus,
+        );
+      }}
     >
       <div className="w-full h-full overflow-y-auto scrollbar-none">
         <div className="relative w-full h-fit h-min-0 flex flex-col gap-y-(--global-padding)">
@@ -163,7 +303,7 @@ export default function UploadForm({
               onChange={handleImagesUploaded}
               type="file"
               className="hidden"
-              name="Images"
+              name="images"
               multiple
               accept=".jpg, .png, .jpeg"
             />
@@ -179,17 +319,7 @@ export default function UploadForm({
           <UploadedImages uploadedImages={uploadedImages}></UploadedImages>
         </div>
       </div>
-      <FormButtons
-        resetForm={() => {
-          setUploadedModels([]);
-          setUploadedImages([]);
-          if (uploadModelsRef.current) uploadModelsRef.current.value = '';
-          if (uploadImagesRef.current) uploadImagesRef.current.value = '';
-          if (nameRef.current) nameRef.current.value = '';
-          if (descriptionRef.current) descriptionRef.current.value = '';
-        }}
-        openGuide={openGuide}
-      />
+      <FormButtons resetForm={() => resetForm()} openGuide={openGuide} />
     </form>
   );
 }

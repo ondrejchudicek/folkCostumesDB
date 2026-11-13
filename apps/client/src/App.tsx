@@ -7,6 +7,7 @@ import {
   ActiveCostumeContext,
   AvailableCostumesContext,
   MobileLayoutContext,
+  SetIsLoadingContext,
 } from './Contexts.ts';
 
 // for testing ------------------------------
@@ -175,6 +176,7 @@ export default function App() {
   const [isMobileLayout, setIsMobileLayout] = useState<boolean>(
     window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1080,
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   window.addEventListener('resize', () => {
     if (
@@ -189,15 +191,18 @@ export default function App() {
       <ActiveCostumeContext.Provider
         value={{ activeCostume, setActiveCostume }}
       >
-        <Renderer setControlsReset={setControlsReset} />
-        <MobileLayoutContext.Provider value={{ isMobileLayout }}>
-          <AvailableCostumesContext.Provider value={{ availableCostumes }}>
-            <UserInterface
-              isMobileLayout={isMobileLayout}
-              controlsReset={controlsReset}
-            />
-          </AvailableCostumesContext.Provider>
-        </MobileLayoutContext.Provider>
+        <SetIsLoadingContext.Provider value={setIsLoading}>
+          <Renderer setControlsReset={setControlsReset} />
+          <MobileLayoutContext.Provider value={{ isMobileLayout }}>
+            <AvailableCostumesContext.Provider value={{ availableCostumes }}>
+              <UserInterface
+                isMobileLayout={isMobileLayout}
+                controlsReset={controlsReset}
+                isLoading={isLoading}
+              />
+            </AvailableCostumesContext.Provider>
+          </MobileLayoutContext.Provider>
+        </SetIsLoadingContext.Provider>
       </ActiveCostumeContext.Provider>
     </>
   );

@@ -1,5 +1,5 @@
 import type { Costume, ToRender } from '../types.ts';
-import { useActiveCostume } from '../Contexts.ts';
+import { useActiveCostume, useSetIsLoadingContext } from '../Contexts.ts';
 import { prepareRenderedParts } from '../utils/prepareRenderedParts.ts';
 import { useCostumePartsModels } from '../utils/loadCostume.ts';
 
@@ -10,8 +10,11 @@ import { useCostumePartsModels } from '../utils/loadCostume.ts';
 
 // prob have to load costume with GLTFLoader externally and change active costume when its ready
 export default function Costume() {
+  const setIsLoading = useSetIsLoadingContext();
   const { activeCostume } = useActiveCostume();
+  setIsLoading(true);
   const costumePartsModels = useCostumePartsModels(activeCostume.parts);
+  setIsLoading(false);
 
   const toRender: ToRender[] = prepareRenderedParts(
     activeCostume.partToggles,

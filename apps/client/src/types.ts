@@ -42,6 +42,7 @@ export interface OpenElements {
   uploadFormOpen: boolean;
   fullScreenImageOpen: boolean;
   guideOpen: boolean;
+  statusOpen: boolean;
 }
 
 export interface rightMenuButtonsOnClicks {
@@ -60,4 +61,18 @@ export interface FullScreenImageInfo {
   title: string;
   prev: FullScreenImageInfo | null;
   next: FullScreenImageInfo | null;
+}
+
+export interface CostumeFormElements extends HTMLFormControlsCollection {
+  partFiles: HTMLInputElement;
+  images: HTMLInputElement;
+}
+
+export interface CostumeFormElement extends HTMLFormElement {
+  readonly elements: CostumeFormElements;
+}
+
+export interface StatusState {
+  text: string;
+  tailwind: string;
 }

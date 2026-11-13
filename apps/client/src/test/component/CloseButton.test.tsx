@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 it('renders CloseButton', () => {
   render(<CloseButton handleClick={vi.fn()} />);
 
-  expect(screen.getByRole('button')).toBeVisible();
+  expect(screen.getByAltText('Close')).toBeVisible();
 });
 
 it('calls handleClick when clicked', async () => {
@@ -14,7 +14,7 @@ it('calls handleClick when clicked', async () => {
 
   render(<CloseButton handleClick={handleClick} />);
 
-  await user.click(screen.getByRole('button'));
+  await user.click(screen.getByAltText('Close'));
 
   expect(handleClick).toHaveBeenCalledTimes(1);
 });

@@ -62,6 +62,6 @@ it('close About panel', async () => {
   expect(screen.getByText('O aplikaci').parentElement).toHaveClass(
     'opacity-100',
   );
-  await user.click(screen.getByRole('button'));
+  await user.click(screen.getByAltText('Close'));
   expect(screen.getByText('O aplikaci').parentElement).toHaveClass('opacity-0');
 });

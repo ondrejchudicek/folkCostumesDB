@@ -29,3 +29,31 @@ body {
   padding: 0;
   overflow: hidden;
 }
+
+.loading {
+  z-index: 50;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 10rem;
+  width: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-anim {
+  z-index: 50;
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 0.5rem solid;
+  border-color: rgba(255, 255, 255, 1) #0000;
+  animation: l1 1s infinite;
+}
+@keyframes l1 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}

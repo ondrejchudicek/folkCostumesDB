@@ -15,6 +15,8 @@ import { relations } from './db/relations.js';
 import { CostumesModule } from './costumes/costumes.module.js';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './db/database.module.js';
+import { NewCostumeService } from './new-costume/new-costume.service.js';
+import { NewCostumeModule } from './new-costume/new-costume.module.js';
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -30,9 +32,10 @@ AppModule = __decorate([
             ConfigModule.forRoot({ isGlobal: true }),
             DatabaseModule,
             CostumesModule,
+            NewCostumeModule,
         ],
         controllers: [AppController],
-        providers: [AppService],
+        providers: [AppService, NewCostumeService],
     })
 ], AppModule);
 export { AppModule };

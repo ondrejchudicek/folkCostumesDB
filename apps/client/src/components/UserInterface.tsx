@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import LeftMenu from './LeftMenu';
 import RightMenu from './RightMenu';
-import type {
-  FullScreenImageInfo,
-  OpenElements,
-  rightMenuButtonsOnClicks,
+import {
+  type StatusState,
+  type FullScreenImageInfo,
+  type OpenElements,
+  type rightMenuButtonsOnClicks,
 } from '../types';
 import About from './About';
 import {
@@ -20,20 +21,26 @@ import {
   closeUploadForm,
   closeGuide,
   openGuide,
+  openStatus,
+  closeStatus,
 } from '../utils/manageOpenComponents';
 import FullScreenImage from './FullScreenImage';
 import { OpenFullScreenImageContext } from '../Contexts';
 import UploadForm from './UploadForm';
 import Guide from './Guide';
+import Loading from './Loading';
+import Status from './Status';
 
 //reads currentCostume and updates itself accordingly, can setCostume
 
 export default function UserInterface({
   isMobileLayout,
   controlsReset,
+  isLoading,
 }: {
   isMobileLayout: boolean;
   controlsReset: () => void;
+  isLoading: boolean;
 }) {
   const grid = isMobileLayout
     ? 'grid'
@@ -47,6 +54,7 @@ export default function UserInterface({
     uploadFormOpen: false,
     fullScreenImageOpen: false,
     guideOpen: false,
+    statusOpen: false,
   });
   const [fullScreenImageInfo, setFullScreenImageInfo] =
     useState<FullScreenImageInfo>({
@@ -55,6 +63,10 @@ export default function UserInterface({
       next: null,
       prev: null,
     });
+  const [status, setStatus] = useState<StatusState>({
+    text: 'No text set',
+    tailwind: '',
+  });
 
   const rightMenuButtonsOnClicks: rightMenuButtonsOnClicks = {
     about: () => openAbout(areOpenElements, setAreOpenElements, isMobileLayout),
@@ -67,6 +79,10 @@ export default function UserInterface({
     <div
       className={`z-20 fixed p-(--global-padding) ${grid} gap-x-(--global-padding) h-full w-full pointer-events-none`}
     >
+      <Loading tw={isLoading ? 'opacity-100' : 'opacity-0'} />
+      <Status tw={status.tailwind} isOpen={areOpenElements.statusOpen}>
+        {status.text}
+      </Status>
       <LeftMenu
         isMobileLayout={isMobileLayout}
         areOpenElements={areOpenElements}
@@ -124,6 +140,9 @@ export default function UserInterface({
         }
         isMobileLayout={isMobileLayout}
         openGuide={() => openGuide(areOpenElements, setAreOpenElements)}
+        openStatus={() => openStatus(areOpenElements, setAreOpenElements)}
+        closeStatus={() => closeStatus(areOpenElements, setAreOpenElements)}
+        setStatus={setStatus}
       />
       <Guide
         isMobileLayout={isMobileLayout}

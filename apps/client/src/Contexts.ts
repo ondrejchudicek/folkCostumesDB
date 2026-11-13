@@ -78,3 +78,19 @@ export function useOpenFullScreenImageContext() {
 
   return context;
 }
+
+export const SetIsLoadingContext = createContext<Dispatch<
+  SetStateAction<boolean>
+> | null>(null);
+
+export function useSetIsLoadingContext() {
+  const context = useContext(SetIsLoadingContext);
+
+  if (context === null) {
+    throw new Error(
+      'useSetIsLoadingContext must be used inside SetIsLoadingContext.Provider',
+    );
+  }
+
+  return context;
+}
