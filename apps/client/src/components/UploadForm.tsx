@@ -1,7 +1,18 @@
 import { useRef, useState, type Dispatch, type SetStateAction } from 'react';
 import CloseButton from './CloseButton';
-import { useSetIsLoadingContext } from '../Contexts';
-import type { CostumeFormElement, StatusState } from '../types';
+import {
+  useActiveCostume,
+  usePreviewContext,
+  type PreviewContextType,
+  useSetIsLoadingContext,
+} from '../Contexts';
+import type {
+  ActiveCostume,
+  CostumeFormElement,
+  Part,
+  PartToggle,
+  StatusState,
+} from '../types';
 
 const TOTAL_FILE_LIMIT = 150;
 const API = 'http://localhost:3000/api';
@@ -9,25 +20,33 @@ const API = 'http://localhost:3000/api';
 function FormButtons({
   resetForm,
   openGuide,
+  previewCostume,
 }: {
   resetForm: () => void;
   openGuide: () => void;
+  previewCostume: () => void;
 }) {
   return (
     <div className="w-full h-full flex justify-around">
       <button
         className="bg-(--bg) pl-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) font-(family-name:--default-font) text-xl text-red-600 text-center"
         onClick={resetForm}
+        type="button"
       >
         Zrušit
       </button>
       <button
         className="bg-(--bg) pl-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) font-(family-name:--default-font) text-xl text-(--font-col) text-center"
         onClick={openGuide}
+        type="button"
       >
         Návod
       </button>
-      <button className="bg-(--bg) pl-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) font-(family-name:--default-font) text-xl text-(--font-col) text-center">
+      <button
+        className="bg-(--bg) pl-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) font-(family-name:--default-font) text-xl text-(--font-col) text-center"
+        onClick={previewCostume}
+        type="button"
+      >
         Náhled
       </button>
       <button
@@ -126,12 +145,10 @@ async function submitForm(
 
   if (fileSize > TOTAL_FILE_LIMIT) {
     setIsLoading(false);
-    // TODO: display status file limit exceeded
     setStatus({ tailwind: 'text-red-600', text: 'File size limit exceeded' });
     openStatus();
 
     setTimeout(() => {
-      // TODO: remove status
       closeStatus();
     }, 4000);
 
@@ -150,12 +167,10 @@ async function submitForm(
 
   // multer error
   if (!response.ok) {
-    // TODO: display status file limit exceeded
     setStatus({ tailwind: 'text-red-600', text: 'File size limit exceeded' });
     openStatus();
 
     setTimeout(() => {
-      // TODO: remove status
       closeStatus();
     }, 4000);
 
@@ -164,18 +179,50 @@ async function submitForm(
 
   // success
   if (typeof responseData !== 'undefined') {
-    // TODO: display status uploaded successfully
     setStatus({ tailwind: 'text-green-600', text: 'Uploaded successfully' });
     openStatus();
 
     setTimeout(() => {
-      // TODO: remove status
       resetForm();
       closeStatus();
     }, 2000);
   }
 
   return 1;
+}
+
+function previewCostume(
+  partFiles: FileList | null | undefined,
+  previewContext: PreviewContextType,
+  setActiveCostume: Dispatch<SetStateAction<ActiveCostume>>,
+) {
+  if (!partFiles || partFiles.length === 0) return;
+  const partToggles: PartToggle[] = [];
+  const partElements: Part[] = [];
+
+  for (let i = 0; i < partFiles.length; i++) {
+    partToggles.push({ partID: i, isActive: true });
+    partElements.push({ partID: i, name: '' + i });
+  }
+
+  const costumePreview: ActiveCostume = {
+    partToggles,
+    images: [],
+    costume: {
+      costumeID: -1,
+      name: 'Preview',
+      description: 'Preview',
+      thumbnailImageID: null,
+    },
+    parts: partElements,
+  };
+
+  previewContext.setPreview({
+    previewParts: partFiles,
+    reloadPreview: true,
+    paths: [],
+  });
+  setActiveCostume(costumePreview);
 }
 
 export default function UploadForm({
@@ -218,6 +265,8 @@ export default function UploadForm({
   const [uploadedModels, setUploadedModels] = useState<File[]>([]);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const setIsLoading = useSetIsLoadingContext();
+  const setActiveCostume = useActiveCostume().setActiveCostume;
+  const previewContext = usePreviewContext();
 
   function handleModelsUploaded(event: React.ChangeEvent<HTMLInputElement>) {
     setUploadedModels(Array.from(event.target.files ?? []));
@@ -319,7 +368,17 @@ export default function UploadForm({
           <UploadedImages uploadedImages={uploadedImages}></UploadedImages>
         </div>
       </div>
-      <FormButtons resetForm={() => resetForm()} openGuide={openGuide} />
+      <FormButtons
+        resetForm={() => resetForm()}
+        openGuide={openGuide}
+        previewCostume={() =>
+          previewCostume(
+            uploadModelsRef.current?.files,
+            previewContext,
+            setActiveCostume,
+          )
+        }
+      />
     </form>
   );
 }

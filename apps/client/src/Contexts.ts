@@ -1,6 +1,11 @@
 import { createContext, useContext } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import type { ActiveCostume, Costume, FullScreenImageInfo } from './types.ts';
+import type {
+  ActiveCostume,
+  Costume,
+  FullScreenImageInfo,
+  Preview,
+} from './types.ts';
 
 interface ActiveCostumeContextType {
   activeCostume: ActiveCostume;
@@ -89,6 +94,25 @@ export function useSetIsLoadingContext() {
   if (context === null) {
     throw new Error(
       'useSetIsLoadingContext must be used inside SetIsLoadingContext.Provider',
+    );
+  }
+
+  return context;
+}
+
+export interface PreviewContextType {
+  preview: Preview;
+  setPreview: Dispatch<SetStateAction<Preview>>;
+}
+
+export const PreviewContext = createContext<PreviewContextType | null>(null);
+
+export function usePreviewContext() {
+  const context = useContext(PreviewContext);
+
+  if (context === null) {
+    throw new Error(
+      'usePreviewContext must be used inside PreviewContext.Provider',
     );
   }
 

@@ -1,19 +1,22 @@
-import type { Costume, ToRender } from '../types.ts';
+import type { Costume, Model3D, ToRender } from '../types.ts';
 import { useActiveCostume, useSetIsLoadingContext } from '../Contexts.ts';
 import { prepareRenderedParts } from '../utils/prepareRenderedParts.ts';
 import { useCostumePartsModels } from '../utils/loadCostume.ts';
 
-// ideally this would remember list of GLBs + bools and only reload when activeCostume chages, update visibility when activeParts changes
-// activeParts have to be shared with UI, so prob in ActiveCostume, which will trigger reload if parts change
-// although this function always has to trigger to update the rendered items so I should instead try to avoid requesting loaded parts from DB and store them somewhere instead
-// something like remember last costume in state and check if available when reloading
-
-// prob have to load costume with GLTFLoader externally and change active costume when its ready
 export default function Costume() {
   const setIsLoading = useSetIsLoadingContext();
   const { activeCostume } = useActiveCostume();
+  let costumePartsModels: Model3D[];
+  console.log('reloading costume');
   setIsLoading(true);
-  const costumePartsModels = useCostumePartsModels(activeCostume.parts);
+  if (
+    activeCostume.costume.costumeID < 0 &&
+    activeCostume.costume.name === 'Preview'
+  ) {
+    costumePartsModels = useCostumePartsModels(activeCostume.parts, true);
+  } else {
+    costumePartsModels = useCostumePartsModels(activeCostume.parts, false);
+  }
   setIsLoading(false);
 
   const toRender: ToRender[] = prepareRenderedParts(

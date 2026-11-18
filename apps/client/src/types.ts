@@ -76,3 +76,9 @@ export interface StatusState {
   text: string;
   tailwind: string;
 }
+
+export interface Preview {
+  previewParts: FileList | null;
+  reloadPreview: boolean;
+  paths: string[];
+}

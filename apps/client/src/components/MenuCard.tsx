@@ -16,7 +16,7 @@ export default function MenuCard({
   if (image)
     return (
       <div
-        className={`h-40 w-full bg-(--bg) flex justify-center items-center gap-x-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) text-center font-(family-name:--default-font) text-xl overflow-hidden ${tailWind}`}
+        className={`h-40 min-h-40 w-full bg-(--bg) flex justify-center items-center gap-x-(--global-padding) pr-(--global-padding) rounded-(--corner-radius) text-center font-(family-name:--default-font) text-xl overflow-hidden ${tailWind}`}
         key={kkey}
         onClick={handleClick}
       >

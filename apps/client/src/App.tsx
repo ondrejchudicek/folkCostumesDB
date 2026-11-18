@@ -2,11 +2,12 @@ import { useState } from 'react';
 import './App.css';
 import UserInterface from './components/UserInterface';
 import Renderer from './components/Renderer';
-import type { ActiveCostume, Costume, Part, Image } from './types.ts';
+import type { ActiveCostume, Costume, Part, Image, Preview } from './types.ts';
 import {
   ActiveCostumeContext,
   AvailableCostumesContext,
   MobileLayoutContext,
+  PreviewContext,
   SetIsLoadingContext,
 } from './Contexts.ts';
 
@@ -164,8 +165,6 @@ const initialActiveCostume: ActiveCostume = {
   images: initialActiveCostumePartsImages,
 };
 
-// stores activeCostume and availableCostumes
-// shares activeCostume with rendrer and UI, shares availableCostumes with UI.
 export default function App() {
   const [controlsReset, setControlsReset] = useState<() => void>(
     () => () => {},
@@ -177,6 +176,11 @@ export default function App() {
     window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1080,
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [preview, setPreview] = useState<Preview>({
+    previewParts: null,
+    reloadPreview: false,
+    paths: [],
+  });
 
   window.addEventListener('resize', () => {
     if (
@@ -186,22 +190,31 @@ export default function App() {
       setIsMobileLayout(!isMobileLayout);
   });
 
+  console.log('reloading app');
+
   return (
     <>
       <ActiveCostumeContext.Provider
         value={{ activeCostume, setActiveCostume }}
       >
         <SetIsLoadingContext.Provider value={setIsLoading}>
-          <Renderer setControlsReset={setControlsReset} />
-          <MobileLayoutContext.Provider value={{ isMobileLayout }}>
-            <AvailableCostumesContext.Provider value={{ availableCostumes }}>
-              <UserInterface
-                isMobileLayout={isMobileLayout}
-                controlsReset={controlsReset}
-                isLoading={isLoading}
-              />
-            </AvailableCostumesContext.Provider>
-          </MobileLayoutContext.Provider>
+          <PreviewContext.Provider
+            value={{
+              preview,
+              setPreview,
+            }}
+          >
+            <Renderer setControlsReset={setControlsReset} />
+            <MobileLayoutContext.Provider value={{ isMobileLayout }}>
+              <AvailableCostumesContext.Provider value={{ availableCostumes }}>
+                <UserInterface
+                  isMobileLayout={isMobileLayout}
+                  controlsReset={controlsReset}
+                  isLoading={isLoading}
+                />
+              </AvailableCostumesContext.Provider>
+            </MobileLayoutContext.Provider>
+          </PreviewContext.Provider>
         </SetIsLoadingContext.Provider>
       </ActiveCostumeContext.Provider>
     </>
