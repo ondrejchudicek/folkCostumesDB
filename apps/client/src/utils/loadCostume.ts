@@ -22,13 +22,11 @@ export function useCostumePartsModels(
 
   if (isPreview) {
     if (!preview.previewParts) return [];
-    console.log('loading preview ');
+
     if (preview.reloadPreview) {
       for (let i = 0; i < preview.previewParts.length; i++) {
-        // i thiunk on second reload this creates a new URL for the same model which rerenders app again
         const path = URL.createObjectURL(preview.previewParts[i]);
         paths.push(path);
-        console.log(path);
       }
 
       setPreview({
@@ -40,7 +38,6 @@ export function useCostumePartsModels(
       paths = preview.paths;
     }
   } else {
-    console.log('loading parts');
     paths = parts.map((part) => `${API}/models/${part.partID}`);
   }
 

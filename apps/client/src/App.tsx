@@ -190,8 +190,6 @@ export default function App() {
       setIsMobileLayout(!isMobileLayout);
   });
 
-  console.log('reloading app');
-
   return (
     <>
       <ActiveCostumeContext.Provider

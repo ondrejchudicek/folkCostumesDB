@@ -20,9 +20,9 @@
     "test:cov": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
     "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
-    "db:up": "docker compose up -d && npx drizzle-kit push",
-    "db:down": "docker compose down",
-    "db:seed": "npx tsx src/db/seed.ts"
+    "db:up": "sudo docker compose up -d",
+    "db:down": "sudo docker compose down",
+    "db:seed": "npx drizzle-kit push && npx tsx src/db/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

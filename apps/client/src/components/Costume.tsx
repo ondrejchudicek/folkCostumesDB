@@ -7,7 +7,7 @@ export default function Costume() {
   const setIsLoading = useSetIsLoadingContext();
   const { activeCostume } = useActiveCostume();
   let costumePartsModels: Model3D[];
-  console.log('reloading costume');
+
   setIsLoading(true);
   if (
     activeCostume.costume.costumeID < 0 &&

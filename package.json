@@ -15,7 +15,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "npm run test --workspaces",
-    "test:e2e": "vitest run test:e2e --workspaces"
+    "test:e2e": "vitest run test:e2e --workspaces",
+    "db:up": "npm run db:up --workspace=server",
+    "db:down": "npm run db:down --workspace=server",
+    "db:seed": "npm run db:seed --workspace=server"
   },
   "dependencies": {
     "three": "^0.184.0",
