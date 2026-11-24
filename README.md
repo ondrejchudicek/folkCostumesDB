@@ -1,3 +1,6 @@
+Tested on Firefox.
+The app currently likely won't work on Chrome.
+
 # folkCostumesDB
 
 A web application for viewing and uploading 3D scans of folk costumes.
