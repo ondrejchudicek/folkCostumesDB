@@ -13,16 +13,22 @@ Install dependencies:
 
 ```bash
 cd ./apps/client
-npm Install
+npm install
 
 cd ../server
-npm Install
+npm install
 
 cd ../..
-npm Install
+npm install
 ```
 
-The application uses Postgres tested in Docker. For initializing the testing database use the provided apps/server/src/db/seed.ts and apps/server/docker-compose.yml
+The application uses Postgres tested in Docker. For initializing the testing database use the provided _apps/server/src/db/seed.ts_ and _apps/server/docker-compose.yml_
+
+Setup your database environment varibles. You can use the provided _apps/server/.env.example_ config file by renaming it to _.env_:
+
+```bash
+cp ./apps/server/.env.example ./apps/server/.env
+```
 
 Setup Docker:
 
