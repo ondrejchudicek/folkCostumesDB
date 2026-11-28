@@ -21,9 +21,9 @@ export function useCostumePartsModels(
   const setPreview = previewContext.setPreview;
 
   if (isPreview) {
-    if (!preview.previewParts) return [];
+    //if (!preview.previewParts) return [];
 
-    if (preview.reloadPreview) {
+    if (preview.reloadPreview && preview.previewParts) {
       for (let i = 0; i < preview.previewParts.length; i++) {
         const path = URL.createObjectURL(preview.previewParts[i]);
         paths.push(path);
@@ -32,7 +32,7 @@ export function useCostumePartsModels(
       setPreview({
         previewParts: preview.previewParts,
         reloadPreview: false,
-        paths: paths,
+        paths,
       });
     } else {
       paths = preview.paths;

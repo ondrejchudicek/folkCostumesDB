@@ -39,7 +39,7 @@ export default function FullScreenImage({
       />
       <img
         src="arrow.svg"
-        alt="Roght Arrow"
+        alt="Right Arrow"
         className="rotate-180 z-22 h-20 w-12 absolute right-(--global-padding) top-[50%] -translate-y-1/2"
         onClick={next}
       />

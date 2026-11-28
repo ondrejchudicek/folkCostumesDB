@@ -4,21 +4,22 @@ import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import type { OpenElements } from '../../types.ts';
 
-it('renders About panel', () => {
-  const areOpenElements = {
-    leftMenuOpen: false,
-    rightMenuOpen: false,
-    leftTriggerOpen: true,
-    rightTriggerOpen: true,
-    aboutOpen: true,
-    uploadFormOpen: false,
-    fullScreenImageOpen: false,
-    guideOpen: false,
-  };
+const areOpenElementsTemplate = {
+  leftMenuOpen: false,
+  rightMenuOpen: false,
+  leftTriggerOpen: true,
+  rightTriggerOpen: true,
+  aboutOpen: true,
+  uploadFormOpen: false,
+  fullScreenImageOpen: false,
+  guideOpen: false,
+  statusOpen: false,
+};
 
+it('renders About panel', () => {
   render(
     <About
-      areOpenElements={areOpenElements}
+      areOpenElements={areOpenElementsTemplate}
       isMobileLayout={false}
       closeAbout={vi.fn()}
     />,
@@ -29,16 +30,9 @@ it('renders About panel', () => {
 
 it('close About panel', async () => {
   function AboutWrapper() {
-    const [areOpenElements, setAreOpenElements] = useState<OpenElements>({
-      leftMenuOpen: false,
-      rightMenuOpen: false,
-      leftTriggerOpen: true,
-      rightTriggerOpen: true,
-      aboutOpen: true,
-      uploadFormOpen: false,
-      fullScreenImageOpen: false,
-      guideOpen: false,
-    });
+    const [areOpenElements, setAreOpenElements] = useState<OpenElements>(
+      areOpenElementsTemplate,
+    );
 
     function closeAbout() {
       const o = { ...areOpenElements };

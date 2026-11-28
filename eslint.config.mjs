@@ -23,6 +23,7 @@ export default defineConfig(
     },
     rules: {
       'jsdoc/require-jsdoc': 'off',
+      'no-use-before-define': 'off',
     },
   },
   {

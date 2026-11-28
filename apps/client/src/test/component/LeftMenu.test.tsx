@@ -22,7 +22,7 @@ function ContextWrapper({
   };
 
   const initialActiveCostume: ActiveCostume = {
-    costume: costume,
+    costume,
     partToggles: [
       { isActive: true, partID: 1 },
       { isActive: true, partID: 2 },
@@ -44,6 +44,7 @@ function ContextWrapper({
     uploadFormOpen: false,
     fullScreenImageOpen: false,
     guideOpen: false,
+    statusOpen: false,
   });
 
   return (

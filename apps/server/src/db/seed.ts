@@ -9,7 +9,7 @@ import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { costumes, images, parts } from './schema.js';
 import { readFileSync } from 'fs';
-import { and, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 async function main() {
   const db = drizzle(process.env.DATABASE_URL!);
@@ -62,18 +62,32 @@ async function main() {
     );
 
     for (let j = 0; j < initialCostumes[i].images.length; j++) {
-      await db.insert(images).values([
-        {
-          name: initialCostumes[i].images[j].name,
-          path: initialCostumes[i].images[j].path,
-          costumeID: KMNCostume.costumeID,
-          isThumbnail: j === 0,
-        },
-      ]);
+      const insertedImages = await db
+        .insert(images)
+        .values([
+          {
+            name: initialCostumes[i].images[j].name,
+            path: initialCostumes[i].images[j].path,
+            costumeID: KMNCostume.costumeID,
+            //isThumbnail: j === 0,
+          },
+        ])
+        .returning({
+          imageID: images.imageID,
+        });
+
+      if (j === 0) {
+        await db
+          .update(costumes)
+          .set({
+            thumbnailImageID: insertedImages[0].imageID,
+          })
+          .where(eq(costumes.costumeID, KMNCostume.costumeID));
+      }
     }
   }
 
-  await db
+  /*await db
     .update(costumes)
     .set({ thumbnailImageID: images.imageID })
     .from(images)
@@ -82,7 +96,7 @@ async function main() {
         eq(images.costumeID, costumes.costumeID),
         eq(images.isThumbnail, true),
       ),
-    );
+    );*/
 
   //------------------Testing
 

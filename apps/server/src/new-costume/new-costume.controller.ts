@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Post,
@@ -9,7 +8,7 @@ import {
 import { NewCostumeService } from './new-costume.service.js';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { costumeFileFilter, costumeStorage } from './upload.config.js';
-import { extname } from 'path';
+import { type FormBody } from '../types.js';
 
 @Controller('api/newCostume')
 export class NewCostumeController {
@@ -35,7 +34,7 @@ export class NewCostumeController {
       partFiles?: Express.Multer.File[];
       images?: Express.Multer.File[];
     },
-    @Body() body: Record<string, any>,
+    @Body() body: FormBody,
   ) {
     return this.newCostumeService.create(body, files);
   }

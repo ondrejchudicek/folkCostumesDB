@@ -1,10 +1,4 @@
-import {
-  AnyPgColumn,
-  integer,
-  pgTable,
-  text,
-  boolean,
-} from 'drizzle-orm/pg-core';
+import { AnyPgColumn, integer, pgTable, text } from 'drizzle-orm/pg-core';
 
 export const costumes = pgTable('costumes', {
   costumeID: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -25,7 +19,7 @@ export const images = pgTable('images', {
   costumeID: integer()
     .notNull()
     .references(() => costumes.costumeID),
-  isThumbnail: boolean().default(false),
+  //isThumbnail: boolean().default(false),
 });
 
 export type Image = typeof images.$inferSelect;

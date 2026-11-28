@@ -4,25 +4,27 @@ import {
   Injectable,
   PayloadTooLargeException,
 } from '@nestjs/common';
-import { join } from 'node:path';
 import { DRIZZLE } from '../db/database.module.js';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { relations } from '../db/relations.js';
 import { costumes, images, parts } from '../db/schema.js';
 import { eq } from 'drizzle-orm';
 import { unlink } from 'node:fs/promises';
-
-const UPLOADS_DIR = join(process.cwd(), 'uploads');
+import { type FormBody } from '../types.js';
 
 @Injectable()
 export class NewCostumeService {
   constructor(@Inject(DRIZZLE) private db: NodePgDatabase<typeof relations>) {}
 
   TOTAL_LIMIT = 200 * 1024 * 1024;
-  toArray = (v: unknown): string[] => ([] as string[]).concat((v as any) ?? []);
+  //toArray = (v: unknown): string[] => ([] as string[]).concat((v as any) ?? []);
+  toArray = (v: unknown): string[] => {
+    if (v === null) return [];
+    return Array.isArray(v) ? v.map(String) : [String(v)];
+  };
 
   async create(
-    body: Record<string, any>,
+    body: FormBody,
     files: {
       partFiles?: Express.Multer.File[];
       images?: Express.Multer.File[];

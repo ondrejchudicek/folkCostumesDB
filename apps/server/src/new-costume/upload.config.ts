@@ -14,7 +14,7 @@ for (const dir of Object.values(DIRS)) {
 }
 
 export const costumeStorage = diskStorage({
-  destination: (req, file, cb) => {
+  destination(req, file, cb) {
     const dir = DIRS[file.fieldname as keyof typeof DIRS];
     cb(null, join(UPLOADS_DIR, dir));
   },
@@ -28,11 +28,11 @@ const ALLOWED = {
   images: ['.jpg', '.jpeg', '.png', '.webp', '.gif'],
 } as const;
 
-export const costumeFileFilter = (
+export function costumeFileFilter(
   req: unknown,
   file: Express.Multer.File,
   cb: (error: Error | null, acceptFile: boolean) => void,
-) => {
+) {
   const allowed: readonly string[] | undefined =
     ALLOWED[file.fieldname as keyof typeof ALLOWED];
   const ext = extname(file.originalname).toLowerCase();
@@ -45,4 +45,4 @@ export const costumeFileFilter = (
       false,
     );
   }
-};
+}

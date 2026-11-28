@@ -191,7 +191,7 @@ async function submitForm(
   return 1;
 }
 
-function previewCostume(
+function previewCostumeImplementation(
   partFiles: FileList | null | undefined,
   previewContext: PreviewContextType,
   setActiveCostume: Dispatch<SetStateAction<ActiveCostume>>,
@@ -202,7 +202,7 @@ function previewCostume(
 
   for (let i = 0; i < partFiles.length; i++) {
     partToggles.push({ partID: i, isActive: true });
-    partElements.push({ partID: i, name: '' + i });
+    partElements.push({ partID: i, name: i.toString() });
   }
 
   const costumePreview: ActiveCostume = {
@@ -372,7 +372,7 @@ export default function UploadForm({
         resetForm={() => resetForm()}
         openGuide={openGuide}
         previewCostume={() =>
-          previewCostume(
+          previewCostumeImplementation(
             uploadModelsRef.current?.files,
             previewContext,
             setActiveCostume,

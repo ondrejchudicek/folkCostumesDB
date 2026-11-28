@@ -57,7 +57,7 @@ export default function Guide({
         >
           <img
             src="arrow.svg"
-            alt="Left Arrow"
+            alt="Previous Page"
             className="h-10 w-10"
             onClick={() =>
               setPage((page - 1 + guideText.length) % guideText.length)
@@ -65,7 +65,7 @@ export default function Guide({
           ></img>
           <img
             src="arrow.svg"
-            alt="Left Arrow"
+            alt="Next Page"
             className="rotate-180 h-10 w-10"
             onClick={() => setPage((page + 1) % guideText.length)}
           ></img>
